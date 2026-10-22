@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "CODEX",
+  "version": "1.0.0",
+  "identifier": "dev.tommy.codex",
+  "build": {
+    "beforeDevCommand": "npm run build",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "CODEX.EXE",
+        "width": 1440,
+        "height": 900,
+        "minWidth": 420,
+        "minHeight": 480,
+        "resizable": true,
+        "center": true,
+        "focus": true,
+        "backgroundColor": "#1b1712",
+        "dragDropEnabled": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis",
+      "msi"
+    ],
+    "publisher": "Tommy",
+    "category": "Game",
+    "copyright": "Personal use",
+    "shortDescription": "CODEX.EXE - classic RPG companion",
+    "longDescription": "CODEX.EXE is a local-first second-monitor companion for classic PC RPGs: game-themed journal, interactive map with personal markers, quests, people, dungeon notes, travel and a Where-was-I recap. Optional read-only bridge for Morrowind (MWSE-Lua and OpenMW).",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      },
+      "nsis": {
+        "installMode": "currentUser"
+      }
+    }
+  }
+}

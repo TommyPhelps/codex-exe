@@ -1,0 +1,11 @@
+[package]
+name = "codex_core"
+version = "1.0.0"
+edition = "2021"
+description = "Dependency-free core of CODEX.EXE: TES3 atlas builder, log tailing, load orders, process lists"
+license = "MIT"
+
+[dependencies]
+
+[lib]
+path = "src/lib.rs"
