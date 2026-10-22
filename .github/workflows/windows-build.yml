@@ -1,0 +1,215 @@
+name: Windows build
+
+# Builds CODEX.EXE on a GitHub-hosted Windows machine and uploads the installers.
+# Runs on every push to main, on demand (Actions tab -> Windows build -> Run workflow),
+# and on version tags (v1.0.0 etc.), which also publish a GitHub Release.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+concurrency:
+  group: windows-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 75
+    permissions:
+      contents: write # commits generated lockfiles to main and saves logs to the ci-logs branch
+    defaults:
+      run:
+        shell: bash
+    env:
+      LOGS: ${{ github.workspace }}/ci-logs
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up Rust (stable, MSVC)
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "src-tauri -> target"
+
+      - name: Tool versions
+        run: |
+          mkdir -p "$LOGS"
+          { node -v; npm -v; rustc -V; cargo -V; } 2>&1 | tee "$LOGS/00-versions.log"
+
+      - name: Install dependencies
+        id: install
+        run: |
+          set -o pipefail
+          if [ -f package-lock.json ]; then
+            npm ci --no-audit --no-fund 2>&1 | tee "$LOGS/01-npm-install.log"
+          else
+            echo "No package-lock.json yet: installing fresh. The lockfile is committed back to main at the end of this run."
+            npm install --no-audit --no-fund 2>&1 | tee "$LOGS/01-npm-install.log"
+          fi
+
+      - name: Type check (strict TypeScript)
+        id: typecheck
+        if: always() && steps.install.outcome == 'success'
+        run: |
+          set -o pipefail
+          npm run typecheck 2>&1 | tee "$LOGS/02-typecheck.log"
+
+      - name: Unit tests (notes, quests, maps, coordinates, profiles, migrations, backups, telemetry, bridges)
+        id: tests
+        if: always() && steps.install.outcome == 'success'
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee "$LOGS/03-tests.log"
+
+      - name: Rust core tests (game-file reader, atlas, load orders, log tail, bridge files)
+        id: coretests
+        if: always() && steps.install.outcome == 'success'
+        run: |
+          set -o pipefail
+          cargo test --manifest-path src-tauri/core/Cargo.toml 2>&1 | tee "$LOGS/04-core-tests.log"
+
+      - name: Build frontend
+        if: always() && steps.install.outcome == 'success'
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee "$LOGS/05-frontend.log"
+
+      - name: Add new Rust dependencies to Cargo.lock (existing versions stay pinned)
+        if: always() && steps.install.outcome == 'success'
+        run: |
+          set -o pipefail
+          cargo metadata --manifest-path src-tauri/Cargo.toml --format-version 1 > /dev/null 2> "$LOGS/06-cargo-lock.log" || { cat "$LOGS/06-cargo-lock.log"; exit 1; }
+          git diff --stat -- src-tauri/Cargo.lock | tee -a "$LOGS/06-cargo-lock.log"
+
+      - name: Build Windows app + NSIS installer
+        id: nsis
+        if: always() && steps.install.outcome == 'success'
+        run: |
+          set -o pipefail
+          LOCKED=""; [ -f src-tauri/Cargo.lock ] && LOCKED="-- --locked"
+          npx tauri build --bundles nsis $LOCKED 2>&1 | tee "$LOGS/07-tauri-nsis.log"
+
+      - name: Collect NSIS installer + portable exe + bridge files
+        id: collect
+        if: always() && steps.nsis.outcome == 'success'
+        run: |
+          VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          mkdir -p out
+          cp src-tauri/target/release/bundle/nsis/*.exe out/
+          cp src-tauri/target/release/codex-exe.exe "out/CODEX_${VERSION}_x64_portable.exe"
+          # The bridge scripts as a plain zip for players who prefer to install them by hand.
+          (cd bridge && 7z a -tzip "../out/CODEX_${VERSION}_morrowind-bridges.zip" mwse openmw README.md > /dev/null)
+          ls -la out | tee "$LOGS/08-outputs.log"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke test (portable exe starts and keeps running)
+        if: always() && steps.collect.outcome == 'success'
+        run: |
+          set +e
+          VERSION="${{ steps.collect.outputs.version }}"
+          SMOKE="$RUNNER_TEMP/smoke"; mkdir -p "$SMOKE"
+          cp "out/CODEX_${VERSION}_x64_portable.exe" "$SMOKE/"
+          powershell -NoProfile -Command "\$p = Start-Process -FilePath '$SMOKE\\CODEX_${VERSION}_x64_portable.exe' -PassThru; Start-Sleep -Seconds 12; if (\$p.HasExited) { Write-Output ('EXITED code ' + \$p.ExitCode); exit 1 } else { Write-Output 'RUNNING after 12s'; Stop-Process -Id \$p.Id -Force; exit 0 }" 2>&1 | tee "$LOGS/09-smoke.log"
+          RC=${PIPESTATUS[0]}
+          ls -la "$SMOKE" "$SMOKE/CODEX-data" 2>&1 | tee -a "$LOGS/09-smoke.log"
+          exit $RC
+
+      - name: Build MSI installer
+        if: always() && steps.collect.outcome == 'success'
+        run: |
+          set -o pipefail
+          LOCKED=""; [ -f src-tauri/Cargo.lock ] && LOCKED="-- --locked"
+          npx tauri build --bundles msi $LOCKED 2>&1 | tee "$LOGS/10-tauri-msi.log"
+          cp src-tauri/target/release/bundle/msi/*.msi out/
+
+      - name: Checksums
+        if: always() && steps.collect.outcome == 'success'
+        run: |
+          cd out && sha256sum * | grep -v SHA256SUMS > SHA256SUMS.txt; cat SHA256SUMS.txt | tee -a "$LOGS/08-outputs.log"
+
+      # Uploads whatever was built, even if a later step (like the MSI) failed.
+      - name: Upload installers
+        if: always() && steps.collect.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: CODEX-${{ steps.collect.outputs.version }}-windows-x64
+          path: out/*
+          if-no-files-found: error
+          retention-days: 30
+
+      # Preserves the lockfiles from the first successful install so every later
+      # build uses exactly the same dependency versions.
+      - name: Commit lockfiles
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.nsis.outcome == 'success'
+        run: |
+          git config user.name "codex-ci"
+          git config user.email "codex-ci@users.noreply.github.com"
+          git add package-lock.json src-tauri/Cargo.lock 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Lockfiles already committed."
+          else
+            git commit -m "Add lockfiles generated by CI [skip ci]"
+            git push origin HEAD:main || echo "::warning::Could not push lockfiles (main moved on); they are in the 'lockfiles' artifact."
+          fi
+
+      - name: Upload lockfiles
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lockfiles
+          path: |
+            package-lock.json
+            src-tauri/Cargo.lock
+          if-no-files-found: ignore
+
+      # Full plain-text logs on a separate 'ci-logs' branch so a failed build can be
+      # diagnosed from the repository itself. Safe to delete; it never triggers builds.
+      - name: Save logs to ci-logs branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          mkdir -p "$LOGS"
+          echo "run=${GITHUB_RUN_NUMBER} attempt=${GITHUB_RUN_ATTEMPT} sha=${GITHUB_SHA} ref=${GITHUB_REF} status=${JOB_STATUS}" > "$LOGS/RUN.txt"
+          cd "$RUNNER_TEMP" && rm -rf logrepo && mkdir logrepo && cd logrepo
+          git init -q && cp "$LOGS"/* .
+          git -c user.name=codex-ci -c user.email=codex-ci@users.noreply.github.com add .
+          git -c user.name=codex-ci -c user.email=codex-ci@users.noreply.github.com commit -qm "CI logs: run ${GITHUB_RUN_NUMBER} (${JOB_STATUS})"
+          git push -qf "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:refs/heads/ci-logs || echo "::warning::could not save logs branch"
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: CODEX-*-windows-x64
+          path: dist
+          merge-multiple: true
+      - name: Release notes for this version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          # The section of CHANGELOG.md for this version, up to the next "## " heading.
+          awk -v v="$VERSION" '$0 ~ "^## \\[?"v"\\]?" {f=1; next} f && /^## / {exit} f' CHANGELOG.md > notes.md
+          [ -s notes.md ] || echo "See CHANGELOG.md." > notes.md
+          cat notes.md
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          body_path: notes.md
