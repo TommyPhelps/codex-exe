@@ -78,8 +78,10 @@ See [CHANGELOG.md](CHANGELOG.md#known-limitations).
 
 ## Building from source
 
-Builds run on GitHub Actions (`.github/workflows/windows-build.yml`): push to `main` or run the
-workflow manually; tags `v*` publish a release. Locally you need Node 22.18+ and, for the
+Builds run on GitHub Actions (`.github/workflows/windows-build.yml`) on every push to `main` or
+on demand. When a build of `main` succeeds with a version (in `src-tauri/tauri.conf.json`) that
+has no release yet, the workflow tags it `v<version>` and publishes a GitHub Release with the
+matching `CHANGELOG.md` section. Pushing a `v*` tag does the same. Locally you need Node 22.18+ and, for the
 desktop shell, Rust with the Tauri 2 prerequisites.
 
 ```

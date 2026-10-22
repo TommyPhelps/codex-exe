@@ -188,28 +188,56 @@ jobs:
           git -c user.name=codex-ci -c user.email=codex-ci@users.noreply.github.com commit -qm "CI logs: run ${GITHUB_RUN_NUMBER} (${JOB_STATUS})"
           git push -qf "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:refs/heads/ci-logs || echo "::warning::could not save logs branch"
 
+  # Publishes a GitHub Release when a v* tag is pushed, or when main is built
+  # successfully with a version (src-tauri/tauri.conf.json) that has no
+  # release yet. In the second case the v<version> tag is created here.
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
     needs: build
+    if: needs.build.result == 'success' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      - name: Decide whether to release
+        id: decide
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            TAG="v$(node -p "require('./src-tauri/tauri.conf.json').version")"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "Release $TAG already exists; nothing to publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/download-artifact@v4
+        if: steps.decide.outputs.publish == 'true'
         with:
           pattern: CODEX-*-windows-x64
           path: dist
           merge-multiple: true
       - name: Release notes for this version
+        if: steps.decide.outputs.publish == 'true'
+        env:
+          TAG: ${{ steps.decide.outputs.tag }}
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="${TAG#v}"
           # The section of CHANGELOG.md for this version, up to the next "## " heading.
           awk -v v="$VERSION" '$0 ~ "^## \\[?"v"\\]?" {f=1; next} f && /^## / {exit} f' CHANGELOG.md > notes.md
           [ -s notes.md ] || echo "See CHANGELOG.md." > notes.md
           cat notes.md
       - name: Publish GitHub Release
+        if: steps.decide.outputs.publish == 'true'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.decide.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: CODEX.EXE ${{ steps.decide.outputs.tag }}
           files: dist/*
           body_path: notes.md
