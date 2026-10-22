@@ -90,13 +90,23 @@ export function MapCanvas(p: Props) {
     return () => ro.disconnect();
   }, []);
 
-  // Fit the whole map the first time (and when the map itself changes).
+  // Fit the whole map the first time and when the map itself changes. Until
+  // the player pans or zooms, window resizes (moving to the other monitor,
+  // compact mode) keep the whole map in view.
+  const userMoved = useRef(false);
+  const followZoomed = useRef(false);
   useEffect(() => {
     const key = `${p.width}x${p.height}`;
-    if (fitted.current !== key && size.w > 10) {
+    if (size.w <= 10) return;
+    if (fitted.current !== key) {
       fitted.current = key;
+      userMoved.current = false;
+      followZoomed.current = false; // a new map: following zooms in again
+      setView(fitView(p.width, p.height, size.w, size.h));
+    } else if (!userMoved.current && !p.follow) {
       setView(fitView(p.width, p.height, size.w, size.h));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p.width, p.height, size.w, size.h]);
 
   // Mount the base canvas / image.
@@ -126,16 +136,37 @@ export function MapCanvas(p: Props) {
     }
   }, [p.fog]);
 
-  // Follow the player.
+  // Follow the player. Turning follow on (or the first live position while
+  // following) also zooms in to a readable level; after that the player's own
+  // zoom is kept and only the centre moves.
   const playerPx = p.player && p.toPx ? p.toPx(p.player) : null;
   useEffect(() => {
-    if (p.follow && playerPx) setView((v) => centerOn(v, playerPx, size.w, size.h));
+    if (!p.follow) {
+      followZoomed.current = false;
+      return;
+    }
+    if (!playerPx) return;
+    // Zoom to roughly 14 exterior cells across (8192 world units per cell),
+    // whatever the atlas resolution.
+    let target = 0.9;
+    if (p.toPx) {
+      const a = p.toPx({ x: 0, y: 0 });
+      const b = p.toPx({ x: 8192, y: 0 });
+      const cellPx = Math.abs(b.x - a.x);
+      if (cellPx > 0) target = size.w / (14 * cellPx);
+    }
+    setView((v) => {
+      const zoomed = !followZoomed.current && v.scale < target ? { ...v, scale: Math.min(target, 24) } : v;
+      followZoomed.current = true;
+      return centerOn(zoomed, playerPx, size.w, size.h);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p.follow, playerPx?.x, playerPx?.y, size.w, size.h]);
 
   // External focus requests (search result, marker list, etc.).
   useEffect(() => {
     if (!p.focus) return;
+    userMoved.current = true;
     const target = p.focus.pt;
     setView((v) => {
       const zoomed = v.scale < 0.6 ? { ...v, scale: Math.max(v.scale, 0.9) } : v;
@@ -152,6 +183,7 @@ export function MapCanvas(p: Props) {
   const onWheel = (e: React.WheelEvent) => {
     const s = toLocal(e);
     const factor = Math.exp(-e.deltaY * 0.0015);
+    userMoved.current = true;
     setView((v) => zoomAt(v, s, factor, 0.04, 24));
   };
 
@@ -196,6 +228,7 @@ export function MapCanvas(p: Props) {
     const dy = e.clientY - d.y;
     if (!d.moved && Math.hypot(dx, dy) > 4) {
       d.moved = true;
+      userMoved.current = true;
       p.onUserPan();
     }
     if (d.moved) setView((v) => ({ ...v, ox: d.ox - dx / v.scale, oy: d.oy - dy / v.scale }));
@@ -228,13 +261,37 @@ export function MapCanvas(p: Props) {
     p.onAddAt(screenToImage(view, s), s);
   };
 
-  const zoomBy = (f: number) => setView((v) => zoomAt(v, { x: size.w / 2, y: size.h / 2 }, f, 0.04, 24));
+  const zoomBy = (f: number) => {
+    userMoved.current = true;
+    setView((v) => zoomAt(v, { x: size.w / 2, y: size.h / 2 }, f, 0.04, 24));
+  };
 
   // ---- screen-space overlays
   const onScreen = (q: Pt, pad = 60) => q.x > -pad && q.y > -pad && q.x < size.w + pad && q.y < size.h + pad;
   const markerEls = p.markers
     .map((m) => ({ m, s: imageToScreen(view, markerPx(m, p.toPx)) }))
     .filter(({ s }) => onScreen(s));
+  // Marker labels: the selected marker first, then the rest; a label that
+  // would overlap one already placed is left off (its name shows on hover and
+  // in the list), so clusters stay readable at any zoom.
+  const shownLabels = new Set<string>();
+  if (view.scale > 0.25) {
+    const boxes: { x0: number; x1: number; y0: number; y1: number }[] = [];
+    const ordered = [...markerEls].sort((a, b) => (a.m.id === p.selectedId ? -1 : b.m.id === p.selectedId ? 1 : 0));
+    for (const { m, s } of ordered) {
+      if (!m.label) continue;
+      const w = Math.min(220, m.label.length * 6.6 + 14);
+      const box = { x0: s.x - w / 2, x1: s.x + w / 2, y0: s.y + 1, y1: s.y + 21 };
+      const pin = { x0: s.x - 14, x1: s.x + 14, y0: s.y - 32, y1: s.y };
+      const hits = (q: typeof box) => boxes.some((b) => q.x0 < b.x1 && q.x1 > b.x0 && q.y0 < b.y1 && q.y1 > b.y0);
+      if (m.id !== p.selectedId && hits(box)) {
+        boxes.push(pin);
+        continue;
+      }
+      boxes.push(box, pin);
+      shownLabels.add(m.id);
+    }
+  }
 
   const labelEls = useMemo(() => {
     if (!p.labels?.length || !p.toPx) return [];
@@ -271,17 +328,18 @@ export function MapCanvas(p: Props) {
 
   const playerScreen = playerPx ? imageToScreen(view, playerPx) : null;
   const renderSketch = (it: SketchItem, i: number, live = false) => {
-    const common = { key: live ? "live" : i, className: `sk ${tool === "erase" ? "erasable" : ""}`, onClick: tool === "erase" && !live ? () => p.sketch?.onErase(i) : undefined };
+    const key = live ? "live" : i;
+    const common = { className: `sk ${tool === "erase" ? "erasable" : ""}`, onClick: tool === "erase" && !live ? () => p.sketch?.onErase(i) : undefined };
     switch (it.t) {
       case "path":
-        return <polyline {...common} points={it.pts.map((q) => q.join(",")).join(" ")} />;
+        return <polyline key={key} {...common} points={it.pts.map((q) => q.join(",")).join(" ")} />;
       case "rect":
-        return <rect {...common} x={it.x} y={it.y} width={Math.max(0, it.w)} height={Math.max(0, it.h)} />;
+        return <rect key={key} {...common} x={it.x} y={it.y} width={Math.max(0, it.w)} height={Math.max(0, it.h)} />;
       case "line":
-        return <line {...common} x1={it.x1} y1={it.y1} x2={it.x2} y2={it.y2} />;
+        return <line key={key} {...common} x1={it.x1} y1={it.y1} x2={it.x2} y2={it.y2} />;
       case "text":
         return (
-          <text {...common} x={it.x} y={it.y} className={`sk-text ${tool === "erase" ? "erasable" : ""}`}>
+          <text key={key} {...common} x={it.x} y={it.y} className={`sk-text ${tool === "erase" ? "erasable" : ""}`}>
             {it.s}
           </text>
         );
@@ -355,12 +413,6 @@ export function MapCanvas(p: Props) {
             </g>
           );
         })}
-        {playerScreen ? (
-          <g transform={`translate(${playerScreen.x},${playerScreen.y}) rotate(${((p.player?.yaw ?? 0) * 180) / Math.PI})`} className="player">
-            <circle r="13" className="player-halo" style={{ stroke: p.style.player }} />
-            <path d="M0 -11 L7 8 L0 4 L-7 8 Z" style={{ fill: p.style.player }} />
-          </g>
-        ) : null}
       </svg>
 
       {markerEls.map(({ m, s }) => (
@@ -377,14 +429,23 @@ export function MapCanvas(p: Props) {
           <span className="marker-pin">
             <Icon name={MARKER_ICON[m.category] ?? "dot"} size={14} />
           </span>
-          {m.label && (view.scale > 0.5 || m.id === p.selectedId) ? <span className="marker-label">{m.label}</span> : null}
+          {m.label && shownLabels.has(m.id) ? <span className="marker-label">{m.label}</span> : null}
         </button>
       ))}
+
+      {playerScreen ? (
+        <svg className="map-player-layer" width={size.w} height={size.h} aria-hidden="true">
+          <g transform={`translate(${playerScreen.x},${playerScreen.y}) rotate(${((p.player?.yaw ?? 0) * 180) / Math.PI})`} className="player">
+            <circle r="13" className="player-halo" style={{ stroke: p.style.player }} />
+            <path d="M0 -11 L7 8 L0 4 L-7 8 Z" style={{ fill: p.style.player }} />
+          </g>
+        </svg>
+      ) : null}
 
       <div className="map-ui map-zoom">
         <button onClick={() => zoomBy(1.4)} title="Zoom in">+</button>
         <button onClick={() => zoomBy(1 / 1.4)} title="Zoom out">−</button>
-        <button onClick={() => setView(fitView(p.width, p.height, size.w, size.h))} title="Show the whole map">
+        <button onClick={() => { userMoved.current = false; setView(fitView(p.width, p.height, size.w, size.h)); }} title="Show the whole map">
           <Icon name="expand" size={14} />
         </button>
       </div>

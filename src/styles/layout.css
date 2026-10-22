@@ -153,3 +153,12 @@
   .whereabouts { display: none; }
   .page { padding: 0.8em 0.9em 2em; }
 }
+
+/* Top-bar text and icon buttons use the bar's own ink, not the page ink:
+   on dark bars over light pages (Morrowind parchment, Oblivion) the page ink
+   would be invisible. */
+.topbar .btn:not(.btn-primary) { color: var(--top-ink); }
+.topbar .btn:not(.btn-primary):hover:not(:disabled) { background: color-mix(in srgb, var(--top-ink) 14%, transparent); border-color: color-mix(in srgb, var(--top-ink) 30%, transparent); }
+.topbar .brand-game { color: color-mix(in srgb, var(--top-ink) 55%, transparent); }
+.topbar .whereabouts { color: color-mix(in srgb, var(--top-ink) 78%, transparent); }
+.topbar .whereabouts.live { color: var(--top-ink); }

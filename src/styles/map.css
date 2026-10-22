@@ -26,6 +26,7 @@
 .map-vector .erasable { pointer-events: visiblePainted; cursor: pointer; }
 .map-vector .erasable:hover { stroke: var(--bad); fill: color-mix(in srgb, var(--bad) 15%, transparent); }
 .map-overlay { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+.map-player-layer { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 3; }
 .place-label { font-family: var(--font-head); font-size: 12px; text-anchor: middle; paint-order: stroke; stroke: color-mix(in srgb, var(--surface) 70%, transparent); stroke-width: 3px; stroke-linejoin: round; letter-spacing: 0.04em; }
 .place-label.big { font-size: 15px; letter-spacing: 0.08em; }
 .map-point circle { fill: none; stroke: var(--game); stroke-width: 2; }

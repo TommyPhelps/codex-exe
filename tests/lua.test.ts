@@ -7,6 +7,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import { parseBridgeDocument, parseBridgeLines } from "../src/core/protocol.ts";
 import { ingest, newTracker } from "../src/core/live.ts";
@@ -15,7 +16,7 @@ const require = createRequire(import.meta.url);
 const fengari = require("fengari");
 const { lua, lauxlib, lualib, to_luastring } = fengari;
 
-const ROOT = new URL("..", import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL("..", import.meta.url));
 
 function vm() {
   const L = lauxlib.luaL_newstate();
