@@ -118,7 +118,7 @@ export function TravelView() {
             </Btn>
           </div>
           {routes.length === 0 ? (
-            <p className="muted small">e.g. Balmora → Seyda Neen by Silt Strider. Recorded routes are used by &ldquo;Find a way&rdquo;.</p>
+            <p className="muted small">e.g. {game.id === "morrowind" ? "Balmora → Seyda Neen by Silt Strider" : `${game.examples.town} → ${game.examples.town2}`}. Recorded routes are used by &ldquo;Find a way&rdquo;.</p>
           ) : (
             <ul className="list compact-list">
               {routes.map((r) => (

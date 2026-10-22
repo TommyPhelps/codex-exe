@@ -117,6 +117,7 @@ const REMINDER_KINDS = [
 
 function Reminders({ items }: { items: repo.Entry[] }) {
   const ch = useApp(activeCharacter)!;
+  const game = useGame();
   const [kind, setKind] = useState("anytime");
   return (
     <Panel title="Reminders" className="span-1">
@@ -142,7 +143,7 @@ function Reminders({ items }: { items: repo.Entry[] }) {
         <Select value={kind} onChange={setKind} options={REMINDER_KINDS} />
         <div className="grow">
           <QuickAdd
-            placeholder={kind === "place" ? "Check the shop @ Balmora" : "Remind me to…"}
+            placeholder={kind === "place" ? `Check the shop @ ${game.examples.town}` : "Remind me to…"}
             onAdd={async (text) => {
               const p = kind === "place" ? parseAtPlace(text) : { title: text, place: "" };
               await mutate((d) => repo.addEntry(d, ch.id, { scope: "reminder", kind, title: p.title, place: p.place }));

@@ -64,6 +64,8 @@ export interface GameAdapter {
   character: CharacterTemplate;
   /** Where the game usually keeps screenshots, relative hints only. */
   screenshotHint: string;
+  /** Real place names used only in placeholder examples ("@ Balmora"). */
+  examples: { town: string; town2: string; goal: string };
 }
 
 export const MARKER_CATEGORIES: MarkerCategory[] = [
@@ -162,6 +164,7 @@ export const GAMES: GameAdapter[] = [
       attributeLabel: "Attributes",
       skillLabel: "Skills",
     },
+    examples: { town: "Balmora", town2: "Caldera", goal: "Become a powerful Telvanni mage" },
     screenshotHint: "Original engine: the Morrowind folder (or MGE XE's screenshot folder). OpenMW: Documents\\My Games\\OpenMW\\screenshots.",
   },
   {
@@ -193,6 +196,7 @@ export const GAMES: GameAdapter[] = [
       attributeLabel: "Attributes",
       skillLabel: "Skills",
     },
+    examples: { town: "Daggerfall", town2: "Wayrest", goal: "Rise through the Mages Guild" },
     screenshotHint: "Daggerfall Unity's persistent data folder (Screenshots).",
   },
   {
@@ -221,6 +225,7 @@ export const GAMES: GameAdapter[] = [
       attributeLabel: "Attributes",
       skillLabel: "Skills",
     },
+    examples: { town: "Chorrol", town2: "Skingrad", goal: "Become a master alchemist" },
     screenshotHint: "The Oblivion install folder (ScreenShot*.bmp).",
   },
   {
@@ -249,6 +254,7 @@ export const GAMES: GameAdapter[] = [
       attributeLabel: "Attributes",
       skillLabel: "Skills",
     },
+    examples: { town: "Whiterun", town2: "Riften", goal: "Join the Companions and lead them one day" },
     screenshotHint: "Steam's screenshot folder, or the game folder if in-game screenshots are enabled.",
   },
   {
@@ -276,6 +282,7 @@ export const GAMES: GameAdapter[] = [
       attributeLabel: "S.P.E.C.I.A.L.",
       skillLabel: "Skills",
     },
+    examples: { town: "Goodsprings", town2: "Primm", goal: "Make it to the Strip" },
     screenshotHint: "Steam's screenshot folder, or the game folder.",
   },
   {
@@ -300,6 +307,7 @@ export const GAMES: GameAdapter[] = [
       attributeLabel: "Attributes",
       skillLabel: "Skills",
     },
+    examples: { town: "Taris", town2: "Dantooine", goal: "Finish my Jedi training" },
     screenshotHint: "The game folder (Screenshots).",
   },
   {
@@ -324,6 +332,7 @@ export const GAMES: GameAdapter[] = [
       attributeLabel: "Attributes",
       skillLabel: "Talents",
     },
+    examples: { town: "the Old Camp", town2: "the New Camp", goal: "Earn a place in one of the camps" },
     screenshotHint: "The game's system folder or your capture tool's folder.",
   },
   {
@@ -348,6 +357,7 @@ export const GAMES: GameAdapter[] = [
       attributeLabel: "",
       skillLabel: "",
     },
+    examples: { town: "Rookie Village", town2: "the Bar", goal: "Reach the center of the Zone" },
     screenshotHint: "Documents\\STALKER-* or the game's screenshots folder.",
   },
 ];
@@ -380,4 +390,9 @@ export const SUPPORT_LABEL: Record<SupportLevel, string> = {
 
 export function markerCategory(game: GameAdapter, id: string): MarkerCategory {
   return game.markerCategories.find((c) => c.id === id) ?? game.markerCategories[game.markerCategories.length - 1];
+}
+
+/** Fills {town}, {town2} and {goal} in placeholder text with the game's own example names. */
+export function exampleText(text: string, game: GameAdapter): string {
+  return text.replace(/\{town\}/g, game.examples.town).replace(/\{town2\}/g, game.examples.town2).replace(/\{goal\}/g, game.examples.goal);
 }

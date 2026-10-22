@@ -9,6 +9,7 @@ import { EntryList } from "../ui/entries.tsx";
 import type { KindDef } from "../ui/entries.tsx";
 import { LinkChips } from "../ui/links.tsx";
 import { useTerm, useGame } from "../ui/theme.ts";
+import { exampleText } from "../core/games.ts";
 import { truncate, relativeTime } from "../core/util.ts";
 import * as native from "../platform/native.ts";
 
@@ -120,6 +121,7 @@ function HintLadder({ quest, log }: { quest: Quest; log: QuestLogEntry[] }) {
 
 function QuestDetail({ quest }: { quest: Quest }) {
   const ch = useApp(activeCharacter)!;
+  const game = useGame();
   const { data: log } = useQuery((d) => repo.questLog(d, quest.id), [quest.id], [] as QuestLogEntry[]);
   return (
     <div className="detail quest-detail">
@@ -142,7 +144,7 @@ function QuestDetail({ quest }: { quest: Quest }) {
 
       <div className="quest-grid">
         <Panel title="Last known information" className="span-2">
-          <TextBlock value={quest.lastKnown} rows={3} placeholder={'e.g. "Someone in Balmora told me to look near the river."'} onSave={(v) => void mutate((d) => repo.updateQuest(d, quest.id, { lastKnown: v }))} />
+          <TextBlock value={quest.lastKnown} rows={3} placeholder={exampleText('e.g. "Someone in {town} told me to look near the river."', game)} onSave={(v) => void mutate((d) => repo.updateQuest(d, quest.id, { lastKnown: v }))} />
         </Panel>
         <Panel title="Next possible action" className="span-2 next-action">
           <TextBlock value={quest.nextAction} rows={2} hand placeholder="What do you want to try next?" onSave={(v) => void mutate((d) => repo.updateQuest(d, quest.id, { nextAction: v }))} />

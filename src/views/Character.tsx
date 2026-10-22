@@ -5,6 +5,7 @@ import { Page, Panel, Field, TextBlock, Source, Pill, Tabs } from "../ui/bits.ts
 import { EntryList } from "../ui/entries.tsx";
 import type { KindDef } from "../ui/entries.tsx";
 import { useTerm, useGame } from "../ui/theme.ts";
+import { exampleText } from "../core/games.ts";
 import type { LiveCharacter, LiveStat } from "../core/protocol.ts";
 import { relativeTime } from "../core/util.ts";
 import { useState } from "react";
@@ -211,7 +212,7 @@ export function CharacterView() {
             <TextBlock value={sheet.roleplay ?? ""} rows={5} hand placeholder="Never steal from temples. Only travel on foot…" onSave={(v) => save({ roleplay: v })} />
           </Panel>
           <Panel title="Goals" className="span-2">
-            <EntryList characterId={ch.id} scope="char" kinds={CHAR_KINDS} only={["goal"]} placeholder={'e.g. "Become a powerful Telvanni mage"'} emptyText="Long-term goals, tracked loosely — tick them off only if you want to." />
+            <EntryList characterId={ch.id} scope="char" kinds={CHAR_KINDS} only={["goal"]} placeholder={exampleText('e.g. "{goal}"', game)} emptyText="Long-term goals, tracked loosely — tick them off only if you want to." />
           </Panel>
           <Panel title="Milestones">
             <EntryList characterId={ch.id} scope="char" kinds={CHAR_KINDS} only={["milestone"]} placeholder="First daedric weapon" />

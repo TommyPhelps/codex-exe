@@ -2,7 +2,8 @@ import { useApp, activeCharacter } from "../state/store.ts";
 import { Page, Panel, Source } from "../ui/bits.tsx";
 import { EntryList } from "../ui/entries.tsx";
 import type { KindDef } from "../ui/entries.tsx";
-import { useTerm } from "../ui/theme.ts";
+import { useTerm, useGame } from "../ui/theme.ts";
+import { exampleText } from "../core/games.ts";
 import type { LiveCharacter } from "../core/protocol.ts";
 import { relativeTime } from "../core/util.ts";
 
@@ -17,17 +18,18 @@ const KINDS: KindDef[] = [
 ];
 
 const PANELS: { kind: string; title: string; placeholder: string; empty: string }[] = [
-  { kind: "storage", title: "Where I stored things", placeholder: "Extra armor in a chest @ Balmora", empty: "“I stored my extra armor in a chest in Balmora” — type it, press Enter." },
-  { kind: "merchant", title: "Useful merchants", placeholder: "Sells cheap potions @ Caldera", empty: "Merchants worth remembering, and what they sell." },
-  { kind: "trainer", title: "Trainers", placeholder: "Trains Alchemy (too pricey for now) @ Balmora", empty: "Who trains what, and whether you could afford it." },
-  { kind: "service", title: "Services to come back for", placeholder: "Enchanter who can make rings @ Vivec", empty: "" },
+  { kind: "storage", title: "Where I stored things", placeholder: "Extra armor in a chest @ {town}", empty: "“I stored my extra armor in a chest in {town}” — type it, press Enter." },
+  { kind: "merchant", title: "Useful merchants", placeholder: "Sells cheap potions @ {town2}", empty: "Merchants worth remembering, and what they sell." },
+  { kind: "trainer", title: "Trainers", placeholder: "Trains a skill (too pricey for now) @ {town}", empty: "Who trains what, and whether you could afford it." },
+  { kind: "service", title: "Services to come back for", placeholder: "Someone who can repair or enchant @ {town2}", empty: "" },
   { kind: "buy", title: "To buy", placeholder: "Restore Health potions", empty: "" },
-  { kind: "sell", title: "To sell", placeholder: "Dwemer coherer @ any trader", empty: "" },
+  { kind: "sell", title: "To sell", placeholder: "Spare armor @ any trader", empty: "" },
   { kind: "equipment", title: "Equipment plans", placeholder: "Upgrade to a better helmet", empty: "" },
 ];
 
 export function LedgerView() {
   const ch = useApp(activeCharacter)!;
+  const game = useGame();
   const t = useTerm();
   const fresh = useApp((s) => ["live", "limited"].includes(s.live.status.state));
   const liveChar = useApp((s) => s.live.state?.character);
@@ -39,7 +41,7 @@ export function LedgerView() {
       <div className="grid-panels ledger-grid">
         {PANELS.map((p) => (
           <Panel key={p.kind} title={p.title}>
-            <EntryList characterId={ch.id} scope="ledger" kinds={KINDS} only={[p.kind]} placeholder={p.placeholder} showPlace emptyText={p.empty} />
+            <EntryList characterId={ch.id} scope="ledger" kinds={KINDS} only={[p.kind]} placeholder={exampleText(p.placeholder, game)} showPlace emptyText={exampleText(p.empty, game)} />
           </Panel>
         ))}
         {inv && inv.length ? (

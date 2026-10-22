@@ -8,7 +8,8 @@ import { Icon } from "../ui/icons.tsx";
 import { EntryList } from "../ui/entries.tsx";
 import type { KindDef } from "../ui/entries.tsx";
 import { LinkChips } from "../ui/links.tsx";
-import { useTerm } from "../ui/theme.ts";
+import { useTerm, useGame } from "../ui/theme.ts";
+import { exampleText } from "../core/games.ts";
 import { parseAtPlace } from "../core/quick.ts";
 import { cellLabel } from "../core/protocol.ts";
 import { normKey, truncate } from "../core/util.ts";
@@ -39,6 +40,7 @@ function openMap(characterId: string, mapId: string) {
 
 function DelveDetail({ delve }: { delve: Delve }) {
   const ch = useApp(activeCharacter)!;
+  const game = useGame();
   const liveCell = useApp((s) => (["live", "limited"].includes(s.live.status.state) ? s.live.state?.cell : undefined));
   const { data: maps } = useQuery((d) => repo.listMaps(d, ch.id), [ch.id], [] as repo.MapRec[]);
   const map = maps.find((m) => m.id === delve.mapId) ?? null;
@@ -52,7 +54,7 @@ function DelveDetail({ delve }: { delve: Delve }) {
         <ConfirmBtn onConfirm={() => void mutate((d) => repo.deleteDelve(d, delve.id), "Dungeon removed.")} />
       </div>
       <div className="row">
-        <Field label="Where" value={delve.place} placeholder="e.g. a cave north of Balmora / the interior's name" onSave={(v) => void mutate((d) => repo.updateDelve(d, delve.id, { place: v }))} />
+        <Field label="Where" value={delve.place} placeholder={exampleText("e.g. a cave north of {town} / the interior's name", game)} onSave={(v) => void mutate((d) => repo.updateDelve(d, delve.id, { place: v }))} />
         {liveCell && !liveCell.exterior && !here ? (
           <Btn small icon="pin" onClick={() => void mutate((d) => repo.updateDelve(d, delve.id, { place: liveCell.name, status: delve.status === "unexplored" ? "exploring" : delve.status }))}>
             Use current location ({cellLabel(liveCell)})

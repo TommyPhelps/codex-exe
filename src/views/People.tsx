@@ -5,13 +5,14 @@ import type { Npc, NpcFacts } from "../db/repo.ts";
 import { Page, Panel, Btn, ConfirmBtn, Empty, Field, TextBlock, QuickAdd, ListDetail } from "../ui/bits.tsx";
 import { Icon } from "../ui/icons.tsx";
 import { LinkChips } from "../ui/links.tsx";
-import { useTerm } from "../ui/theme.ts";
+import { useTerm, useGame } from "../ui/theme.ts";
+import { exampleText } from "../core/games.ts";
 import { parseNpcQuick } from "../core/quick.ts";
 import { truncate } from "../core/util.ts";
 
 type FactKey = "place" | "faction" | "occupation" | "services" | "dialogue" | "asked" | "promised" | "worth";
 const FACTS: { key: FactKey; label: string; placeholder: string; long?: boolean }[] = [
-  { key: "place", label: "Where", placeholder: "e.g. Balmora, near the silt strider" },
+  { key: "place", label: "Where", placeholder: "e.g. {town}, near the gate" },
   { key: "occupation", label: "Occupation", placeholder: "e.g. trainer, merchant" },
   { key: "faction", label: "Faction", placeholder: "e.g. Fighters Guild" },
   { key: "services", label: "Services", placeholder: "e.g. trains Alchemy" },
@@ -37,6 +38,7 @@ async function saveFact(p: Npc, k: FactKey, v: string) {
 
 function NpcDetail({ npc }: { npc: Npc }) {
   const ch = useApp(activeCharacter)!;
+  const game = useGame();
   const [extra, setExtra] = useState<FactKey[]>([]);
   useEffect(() => setExtra([]), [npc.id]);
   const shown = FACTS.filter((f) => getFact(npc, f.key).trim() || extra.includes(f.key));
@@ -54,9 +56,9 @@ function NpcDetail({ npc }: { npc: Npc }) {
           <div key={f.key} className={`fact ${f.long ? "fact-long" : ""}`}>
             <span className="fact-label">{f.label}</span>
             {f.long ? (
-              <TextBlock value={getFact(npc, f.key)} rows={2} placeholder={f.placeholder} onSave={(v) => void saveFact(npc, f.key, v)} autoFocus={extra[extra.length - 1] === f.key} />
+              <TextBlock value={getFact(npc, f.key)} rows={2} placeholder={exampleText(f.placeholder, game)} onSave={(v) => void saveFact(npc, f.key, v)} autoFocus={extra[extra.length - 1] === f.key} />
             ) : (
-              <Field value={getFact(npc, f.key)} placeholder={f.placeholder} onSave={(v) => void saveFact(npc, f.key, v)} autoFocus={extra[extra.length - 1] === f.key} />
+              <Field value={getFact(npc, f.key)} placeholder={exampleText(f.placeholder, game)} onSave={(v) => void saveFact(npc, f.key, v)} autoFocus={extra[extra.length - 1] === f.key} />
             )}
           </div>
         ))}
@@ -71,7 +73,7 @@ function NpcDetail({ npc }: { npc: Npc }) {
         </div>
       ) : null}
       <Panel title="Observations">
-        <TextBlock value={npc.notes} rows={4} placeholder={'e.g. "I found a trainer in Balmora, but I couldn\'t afford the training."'} onSave={(v) => void mutate((d) => repo.updateNpc(d, npc.id, { notes: v }))} />
+        <TextBlock value={npc.notes} rows={4} placeholder={exampleText('e.g. "I found a trainer in {town}, but I couldn\'t afford the training."', game)} onSave={(v) => void mutate((d) => repo.updateNpc(d, npc.id, { notes: v }))} />
       </Panel>
       <Panel title="Connections">
         <LinkChips characterId={ch.id} self={{ type: "npc", id: npc.id }} types={["quest"]} addTypes={["quest"]} label="Quests" />
@@ -85,6 +87,7 @@ function NpcDetail({ npc }: { npc: Npc }) {
 
 export function PeopleView() {
   const ch = useApp(activeCharacter)!;
+  const game = useGame();
   const target = useApp((s) => s.target);
   const t = useTerm();
   const [sel, setSel] = useState<string | null>(target?.type === "npc" ? target.id ?? null : null);
@@ -124,7 +127,7 @@ export function PeopleView() {
       </div>
       {npcs.length === 0 ? (
         <Empty icon="people" title="Nobody recorded yet">
-          Type a name and press Enter. &ldquo;Ajira @ Balmora - sells alchemy gear&rdquo; fills in the place and a note in one go.
+          Type a name and press Enter. &ldquo;Old trader @ {game.examples.town} - sells alchemy gear&rdquo; fills in the place and a note in one go.
         </Empty>
       ) : null}
       {groups.map(([g, items]) => (
