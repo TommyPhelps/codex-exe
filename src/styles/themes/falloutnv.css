@@ -1,0 +1,109 @@
+/* ==================================================================
+   NEW VEGAS — a worn wrist-terminal readout.
+   Phosphor monochrome, scanlines, bracketed tab groups, ticked
+   panel corners, retro-futurist instrumentation. Original styling.
+   ================================================================== */
+[data-theme="falloutnv"] {
+  --phos: #5cff8a;
+  --phos-rgb: 92, 255, 138;
+  --font-head: "VT323", "Share Tech Mono", monospace;
+  --font-body: "Share Tech Mono", ui-monospace, monospace;
+  --font-ui: "Share Tech Mono", ui-monospace, monospace;
+  --font-hand: "VT323", monospace;
+  --font-mono: "Share Tech Mono", monospace;
+  --fs: calc(14.5px * var(--font-scale));
+  --title-size: 2.7em;
+  --head-transform: uppercase;
+  --head-spacing: 0.06em;
+  --radius: 0;
+  --radius-sm: 0;
+  --icon-stroke: 1.8;
+  --icon-fill: 0;
+
+  --bg: #031007;
+  --bg-img: radial-gradient(ellipse at 50% 45%, rgba(var(--phos-rgb), 0.07), transparent 65%), radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.75) 100%);
+  --surface: transparent;
+  --panel: rgba(var(--phos-rgb), 0.035);
+  --panel-border: rgba(var(--phos-rgb), 0.45);
+  --panel-shadow: none;
+  --ink: var(--phos);
+  --ink-2: rgba(var(--phos-rgb), 0.85);
+  --ink-3: rgba(var(--phos-rgb), 0.58);
+  --accent: var(--phos);
+  --accent-2: rgba(var(--phos-rgb), 0.6);
+  --accent-ink: #031007;
+  --line: rgba(var(--phos-rgb), 0.2);
+  --line-2: rgba(var(--phos-rgb), 0.42);
+  --hand-ink: var(--phos);
+  --live: var(--phos);
+  --game: var(--phos);
+  --ok: var(--phos);
+  --warn: var(--phos);
+  --bad: var(--phos);
+  --nav-bg: transparent;
+  --nav-ink: rgba(var(--phos-rgb), 0.7);
+  --nav-on-ink: #031007;
+  --top-bg: transparent;
+  --top-ink: var(--phos);
+  --field-bg: rgba(var(--phos-rgb), 0.05);
+  --field-border: rgba(var(--phos-rgb), 0.45);
+  --field-ink: var(--phos);
+  --btn-border: rgba(var(--phos-rgb), 0.55);
+  --btn-ink: var(--phos);
+  --btn-hover: rgba(var(--phos-rgb), 0.12);
+  --btn-primary-bg: var(--phos);
+  --btn-primary-ink: #031007;
+  --glow: 0 0 6px rgba(var(--phos-rgb), 0.55);
+  --focus: 0 0 0 1px var(--phos);
+  color-scheme: dark;
+}
+[data-theme="falloutnv"][data-variant="amber"] {
+  --phos: #ffb642;
+  --phos-rgb: 255, 182, 66;
+  --bg: #0d0802;
+  --accent-ink: #0d0802;
+  --nav-on-ink: #0d0802;
+  --btn-primary-ink: #0d0802;
+}
+[data-theme="falloutnv"] body, [data-theme="falloutnv"] .app { text-shadow: var(--glow); }
+[data-theme="falloutnv"] .app-material {
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0.22) 3px, rgba(0, 0, 0, 0) 4px);
+  z-index: 70;
+  mix-blend-mode: multiply;
+}
+[data-theme="falloutnv"] .topbar { border-bottom: 2px solid var(--line-2); }
+[data-theme="falloutnv"] .page-title { line-height: 0.95; }
+[data-theme="falloutnv"] .panel { border-width: 1px; }
+[data-theme="falloutnv"] .panel::before,
+[data-theme="falloutnv"] .panel::after { content: ""; position: absolute; width: 10px; height: 10px; border: 2px solid var(--phos); pointer-events: none; }
+[data-theme="falloutnv"] .panel::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+[data-theme="falloutnv"] .panel::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+[data-theme="falloutnv"] .panel-title::before { content: "> "; opacity: 0.7; }
+[data-theme="falloutnv"] .panel-title { font-family: "VT323", monospace; font-size: 1.45em; text-transform: uppercase; }
+[data-theme="falloutnv"] .btn { text-transform: uppercase; }
+[data-theme="falloutnv"] .btn-primary, [data-theme="falloutnv"] .seg button.on, [data-theme="falloutnv"] .chip.on { text-shadow: none; }
+[data-theme="falloutnv"] .pill { border-radius: 0; }
+[data-theme="falloutnv"] .list-item.on { background: rgba(var(--phos-rgb), 0.16); border-color: var(--phos); }
+/* bracketed group tabs */
+[data-theme="falloutnv"] .nav-terminal { flex-direction: column; align-items: stretch; padding: 0.4em 1em 0; border-bottom: 1px solid var(--line-2); }
+[data-theme="falloutnv"] .term-groups { display: flex; justify-content: center; gap: 0.4em; border-bottom: 2px solid var(--phos); }
+[data-theme="falloutnv"] .term-group { border: 2px solid var(--phos); border-bottom: 0; background: transparent; color: var(--phos); font-family: "VT323", monospace; font-size: 1.55em; padding: 0.05em 1.1em 0; cursor: pointer; letter-spacing: 0.08em; text-shadow: var(--glow); margin-bottom: -2px; }
+[data-theme="falloutnv"] .term-group.on { background: var(--phos); color: #031007; text-shadow: none; }
+[data-theme="falloutnv"][data-variant="amber"] .term-group.on { color: #0d0802; }
+[data-theme="falloutnv"] .term-subs { display: flex; justify-content: center; gap: 1.2em; padding: 0.35em 0; flex-wrap: wrap; }
+[data-theme="falloutnv"] .term-sub { border: 0; background: none; color: rgba(var(--phos-rgb), 0.65); font-family: "Share Tech Mono", monospace; font-size: 1em; cursor: pointer; text-transform: uppercase; text-shadow: var(--glow); }
+[data-theme="falloutnv"] .term-sub.on { color: var(--phos); }
+[data-theme="falloutnv"] .term-sub.on::before { content: "\25B8 "; }
+[data-theme="falloutnv"] .mode-compact .term-group { font-size: 1.2em; padding: 0 0.6em; }
+[data-theme="falloutnv"] .tab { font-family: "VT323", monospace; font-size: 1.3em; text-transform: uppercase; }
+[data-theme="falloutnv"] .divider .o-line { stroke: var(--phos); }
+[data-theme="falloutnv"] .marker-pin { border-radius: 0; transform: rotate(0deg); background: #031007; color: var(--phos); border: 2px solid var(--phos); box-shadow: 0 0 6px rgba(var(--phos-rgb), 0.6); }
+[data-theme="falloutnv"] .marker-pin .icon { transform: none; }
+[data-theme="falloutnv"] .marker-label { background: rgba(0, 0, 0, 0.75); color: var(--phos); }
+[data-theme="falloutnv"] .map-stage { border: 2px solid var(--phos); }
+[data-theme="falloutnv"] .place-label { font-family: "Share Tech Mono", monospace; text-transform: uppercase; stroke: rgba(0, 0, 0, 0.8); }
+[data-theme="falloutnv"] .textblock.hand, [data-theme="falloutnv"] .hand { font-size: 1.35em; }
+[data-theme="falloutnv"] .lamp { box-shadow: 0 0 6px currentColor; }
+[data-theme="falloutnv"] .status-live .lamp, [data-theme="falloutnv"] .status-big.status-live .lamp { background: var(--phos); }
+[data-theme="falloutnv"][data-deco="off"] body, [data-theme="falloutnv"][data-deco="off"] .app { text-shadow: none; }
+[data-theme="falloutnv"][data-deco="off"] { --glow: none; }

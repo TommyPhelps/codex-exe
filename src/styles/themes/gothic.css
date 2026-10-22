@@ -1,0 +1,105 @@
+/* ==================================================================
+   GOTHIC — a rough diary kept in the colony.
+   Soot, dirty parchment, worn iron plates with rivets, blackletter
+   headings over a readable book face.
+   ================================================================== */
+[data-theme="gothic"] {
+  --font-head: "Grenze Gotisch", "Alegreya", serif;
+  --font-body: "Alegreya", Georgia, serif;
+  --font-ui: "Alegreya", Georgia, serif;
+  --fs: calc(15.5px * var(--font-scale));
+  --title-size: 2.4em;
+  --head-weight: 500;
+  --radius: 1px;
+  --radius-sm: 1px;
+  --icon-stroke: 1.9;
+  --grime: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='g'><feTurbulence type='turbulence' baseFrequency='0.7' numOctaves='4' seed='13' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05  0 0 0 0 0.04  0 0 0 0 0.03  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+
+  --bg: #120e0a;
+  --bg-img: var(--grime), radial-gradient(ellipse at 30% 10%, #2a1f15, #0d0a07 70%);
+  --surface: #1c1610;
+  --surface-img: radial-gradient(ellipse at 45% 15%, rgba(230, 140, 50, 0.12), transparent 55%), var(--grime);
+  --panel: rgba(42, 33, 24, 0.86);
+  --panel-border: #4d3b28;
+  --panel-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.5);
+  --ink: #e6d5b0;
+  --ink-2: #ccb88d;
+  --ink-3: #998662;
+  --accent: #d0913f;
+  --accent-2: #8a6233;
+  --accent-ink: #160f08;
+  --line: rgba(208, 145, 63, 0.15);
+  --line-2: rgba(208, 145, 63, 0.3);
+  --hand-ink: #e8c78f;
+  --live: #9ccf82;
+  --game: #a9b9cf;
+  --nav-bg: #17120d;
+  --nav-img: var(--grime), linear-gradient(90deg, #1f1811, #120d09);
+  --nav-ink: #bda57a;
+  --nav-on-ink: #ffe2ad;
+  --top-bg: #120e0a;
+  --top-img: var(--grime), linear-gradient(180deg, #1d1610, #0f0b08);
+  --top-ink: #e6d5b0;
+  --field-bg: rgba(0, 0, 0, 0.32);
+  --field-border: #5a4630;
+  --btn-border: #6a5236;
+  --btn-hover: rgba(208, 145, 63, 0.1);
+  --btn-primary-bg: #a8662a;
+  --btn-primary-ink: #160f08;
+  color-scheme: dark;
+}
+[data-theme="gothic"][data-variant="ash"] {
+  --bg: #6e675b;
+  --bg-img: var(--grime), linear-gradient(180deg, #7a7366, #57514a);
+  --surface: #cdbf9f;
+  --surface-img: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(50, 35, 20, 0.35) 100%), var(--grime);
+  --panel: rgba(222, 208, 176, 0.6);
+  --panel-border: #6b5638;
+  --ink: #241a10;
+  --ink-2: #44331f;
+  --ink-3: #6e5a3d;
+  --accent: #6e2a14;
+  --accent-2: #7a6236;
+  --accent-ink: #f2e4c4;
+  --line: rgba(80, 60, 35, 0.22);
+  --line-2: rgba(80, 60, 35, 0.42);
+  --hand-ink: #2a2244;
+  --field-bg: rgba(255, 248, 230, 0.4);
+  --field-border: #7a6340;
+  --btn-border: #6b5638;
+  --btn-hover: rgba(110, 42, 20, 0.08);
+  --btn-primary-bg: #6e2a14;
+  --btn-primary-ink: #f2e4c4;
+  --live: #3d6a2f;
+  --game: #34587a;
+  color-scheme: light;
+}
+[data-theme="gothic"] .page-title { color: var(--accent); }
+[data-theme="gothic"] .panel-title { font-family: "Grenze Gotisch", serif; font-size: 1.35em; font-weight: 500; }
+[data-theme="gothic"] .brand-word { font-family: "Grenze Gotisch", serif; font-size: 1.6em; }
+[data-theme="gothic"] .corner { width: 12px; height: 12px; fill: #6a5236; stroke: #2a1f15; opacity: 1; }
+/* iron plates with rivets */
+[data-theme="gothic"] .nav-iron { padding: 1em 0.6em; gap: 0.4em; border-right: 2px solid #050302; }
+[data-theme="gothic"] .nav-iron .nav-item {
+  font-family: "Grenze Gotisch", serif;
+  font-size: 1.15em;
+  padding: 0.4em 1.4em;
+  background:
+    radial-gradient(circle at 8px 50%, #8a7a62 0 2px, #2a2219 2.5px 3.5px, transparent 4px),
+    radial-gradient(circle at calc(100% - 8px) 50%, #8a7a62 0 2px, #2a2219 2.5px 3.5px, transparent 4px),
+    linear-gradient(180deg, #3a3129, #241e18);
+  border: 1px solid #0b0806;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+[data-theme="gothic"] .nav-iron .nav-item.on {
+  color: #ffe2ad;
+  background:
+    radial-gradient(circle at 8px 50%, #f0b060 0 2px, #2a2219 2.5px 3.5px, transparent 4px),
+    radial-gradient(circle at calc(100% - 8px) 50%, #f0b060 0 2px, #2a2219 2.5px 3.5px, transparent 4px),
+    linear-gradient(180deg, #6a3d1c, #3a2412);
+  box-shadow: 0 0 10px rgba(230, 140, 50, 0.35), inset 0 1px 0 rgba(255, 220, 160, 0.2);
+}
+[data-theme="gothic"] .tab { font-family: "Grenze Gotisch", serif; font-size: 1.2em; }
+[data-theme="gothic"] .divider .o-line { stroke: var(--accent-2); }
+[data-theme="gothic"] .map-stage { border: 3px solid #3a3129; outline: 1px solid #0b0806; }
+[data-theme="gothic"] .place-label { font-family: "Grenze Gotisch", serif; font-size: 14px; }

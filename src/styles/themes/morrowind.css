@@ -1,0 +1,204 @@
+/* ==================================================================
+   MORROWIND — a personal journal carried across Vvardenfell.
+   Leather binding, a ribboned spine, aged parchment pages, sepia ink,
+   oxblood headings, muted gold ornament. All textures are procedural.
+   ================================================================== */
+[data-theme="morrowind"] {
+  --font-head: "IM Fell English", "Crimson Pro", Georgia, serif;
+  --font-body: "Crimson Pro", Georgia, serif;
+  --font-ui: "Crimson Pro", Georgia, serif;
+  --font-hand: "Caveat", cursive;
+  --fs: calc(16px * var(--font-scale));
+  --title-size: 2.15em;
+  --radius: 2px;
+  --radius-sm: 2px;
+  --icon-stroke: 1.55;
+  --icon-fill: 0.28;
+
+  /* parchment (day) */
+  --bg: #2a1d12;
+  --bg-img:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 220, 160, 0.06), transparent 60%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.06  0 0 0 0 0.03  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    linear-gradient(160deg, #3a2716, #24180e 70%);
+  --surface: #e8dab5;
+  --surface-img:
+    radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(120, 78, 28, 0.28) 100%),
+    radial-gradient(circle at 82% 12%, rgba(150, 105, 45, 0.16), transparent 22%),
+    radial-gradient(circle at 12% 88%, rgba(140, 95, 40, 0.14), transparent 26%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.035 0.6' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.32  0 0 0 0 0.14  0 0 0 0.22 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='q'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.25  0 0 0 0 0.12  0 0 0 0.16 0'/></filter><rect width='100%' height='100%' filter='url(%23q)'/></svg>");
+  --panel: rgba(244, 233, 204, 0.62);
+  --panel-2: rgba(232, 214, 176, 0.7);
+  --panel-border: rgba(110, 76, 38, 0.45);
+  --panel-shadow: 0 1px 0 rgba(255, 250, 235, 0.6) inset, 0 2px 6px rgba(80, 50, 20, 0.12);
+  --panel-img: none;
+  --ink: #2c1f12;
+  --ink-2: #4d3a24;
+  --ink-3: #7a6346;
+  --ink-inv: #f2e6c8;
+  --accent: #7c2d18;
+  --accent-2: #9a7a3c;
+  --accent-ink: #f4e8c8;
+  --line: rgba(110, 76, 38, 0.22);
+  --line-2: rgba(110, 76, 38, 0.42);
+  --ok: #4c6b2c;
+  --warn: #9a6a12;
+  --bad: #8e2618;
+  --live: #3f7a4a;
+  --game: #3c5f80;
+  --hand-ink: #24365c;
+  --nav-bg: #2f1f12;
+  --nav-img:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.45)),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='l'><feTurbulence type='turbulence' baseFrequency='0.9' numOctaves='3' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.10  0 0 0 0 0.05  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23l)'/></svg>"),
+    linear-gradient(180deg, #43301c, #2a1b0f);
+  --nav-ink: #d9c39a;
+  --nav-on-bg: transparent;
+  --nav-on-ink: #2c1f12;
+  --nav-w: 222px;
+  --top-bg: #24180e;
+  --top-img: linear-gradient(180deg, #3a2716, #22160c);
+  --top-ink: #ead6aa;
+  --field-bg: rgba(255, 250, 236, 0.45);
+  --field-border: rgba(110, 76, 38, 0.38);
+  --btn-border: rgba(110, 76, 38, 0.5);
+  --btn-hover: rgba(124, 45, 24, 0.08);
+  --btn-primary-bg: #7c2d18;
+  --btn-primary-ink: #f4e8c8;
+  --focus: 0 0 0 2px rgba(124, 45, 24, 0.55);
+  color-scheme: light;
+}
+
+[data-theme="morrowind"][data-variant="lamplight"] {
+  --surface: #2a2017;
+  --surface-img:
+    radial-gradient(ellipse at 40% 25%, rgba(255, 190, 110, 0.13), transparent 55%),
+    radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.45) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.04 0.7' numOctaves='3' seed='5' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.75  0 0 0 0 0.55  0 0 0 0 0.3  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>");
+  --panel: rgba(56, 42, 27, 0.72);
+  --panel-2: rgba(66, 50, 32, 0.8);
+  --panel-border: rgba(214, 170, 92, 0.32);
+  --panel-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --ink: #efdcb4;
+  --ink-2: #d4bd92;
+  --ink-3: #a78f69;
+  --accent: #e0b25a;
+  --accent-2: #a9843f;
+  --accent-ink: #24180e;
+  --line: rgba(224, 178, 90, 0.16);
+  --line-2: rgba(224, 178, 90, 0.32);
+  --hand-ink: #b9cdf0;
+  --nav-on-ink: #efdcb4;
+  --field-bg: rgba(0, 0, 0, 0.22);
+  --field-border: rgba(224, 178, 90, 0.3);
+  --btn-border: rgba(224, 178, 90, 0.38);
+  --btn-hover: rgba(224, 178, 90, 0.1);
+  --btn-primary-bg: #b8862f;
+  --btn-primary-ink: #1d140b;
+  --live: #7fcf92;
+  --game: #8fb5dc;
+  --ok: #94c27a;
+  --bad: #e0745e;
+  --warn: #e3b04f;
+  color-scheme: dark;
+}
+
+/* --- the book: the page sits inside the leather binding --- */
+[data-theme="morrowind"] .app-side .main {
+  margin: 10px 12px 12px 0;
+  border-radius: 2px 6px 6px 2px;
+  box-shadow:
+    0 0 0 1px rgba(60, 38, 18, 0.7),
+    inset 18px 0 22px -14px rgba(70, 40, 12, 0.55),
+    0 10px 30px rgba(0, 0, 0, 0.55);
+}
+[data-theme="morrowind"] .topbar { border-bottom: 1px solid #120b05; box-shadow: inset 0 -1px 0 rgba(214, 170, 92, 0.25); }
+[data-theme="morrowind"] .brand-word { font-family: "IM Fell English SC", serif; font-size: 1.35em; color: #d6aa5c; letter-spacing: 0.06em; }
+[data-theme="morrowind"] .char-switch { font-family: "IM Fell English", serif; color: #f0dcb0; }
+[data-theme="morrowind"] .page-title { color: #5a1f10; font-weight: 400; letter-spacing: 0.01em; }
+[data-theme="morrowind"][data-variant="lamplight"] .page-title { color: #f0d79e; }
+[data-theme="morrowind"] .page-title::first-letter { font-size: 1.32em; color: var(--accent); }
+[data-theme="morrowind"] .panel-title { font-family: "IM Fell English SC", serif; font-size: 1.12em; letter-spacing: 0.03em; color: var(--accent); }
+[data-theme="morrowind"] .panel { border-width: 1px; outline: 1px solid rgba(110, 76, 38, 0.18); outline-offset: 2px; }
+[data-theme="morrowind"][data-variant="lamplight"] .panel { outline-color: rgba(224, 178, 90, 0.12); }
+[data-theme="morrowind"] .tab { font-family: "IM Fell English SC", serif; letter-spacing: 0.03em; }
+[data-theme="morrowind"] .btn { font-family: "Crimson Pro", serif; font-size: 0.98em; }
+[data-theme="morrowind"] .pill { font-family: "Crimson Pro", serif; letter-spacing: 0.08em; }
+[data-theme="morrowind"] .divider .o-line { stroke: #8a6a33; }
+[data-theme="morrowind"] .divider .o-fill { fill: #7c2d18; }
+[data-theme="morrowind"][data-variant="lamplight"] .divider .o-fill { fill: #e0b25a; }
+[data-theme="morrowind"] .recap p { font-size: 1.14em; }
+[data-theme="morrowind"] .recap p:first-child::first-letter { font-family: "IM Fell English", serif; font-size: 2.3em; float: left; line-height: 0.9; padding: 0.06em 0.12em 0 0; color: var(--accent); }
+
+/* --- ribbon bookmarks on the spine --- */
+[data-theme="morrowind"] .nav-ribbons { padding: 1.2em 0 1em; border-right: 1px solid #120b05; gap: 0.18em; }
+[data-theme="morrowind"] .nav-ribbons::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 7px;
+  border-right: 1px dashed rgba(214, 170, 92, 0.35);
+  pointer-events: none;
+}
+[data-theme="morrowind"] .spine-cap { height: 10px; margin: 0 14px 0.6em; border-top: 2px solid rgba(214, 170, 92, 0.45); border-bottom: 1px solid rgba(214, 170, 92, 0.25); }
+[data-theme="morrowind"] .nav-ribbons .nav-item {
+  font-family: "IM Fell English SC", serif;
+  font-size: 1.04em;
+  letter-spacing: 0.03em;
+  padding: 0.5em 1em 0.5em 1.65em;
+  margin-right: 0;
+  color: #dcc59a;
+}
+[data-theme="morrowind"] .nav-ribbons .nav-item::before {
+  /* the fabric ribbon */
+  content: "";
+  position: absolute;
+  left: 0.55em;
+  top: 18%;
+  bottom: 18%;
+  width: 5px;
+  background: var(--rib, #7c2d18);
+  box-shadow: 1px 0 0 rgba(0, 0, 0, 0.35);
+}
+[data-theme="morrowind"] .nav-ribbons .nav-item:nth-child(3n + 2) { --rib: #7c2d18; }
+[data-theme="morrowind"] .nav-ribbons .nav-item:nth-child(3n + 3) { --rib: #9a7a3c; }
+[data-theme="morrowind"] .nav-ribbons .nav-item:nth-child(3n + 4) { --rib: #3c5a5a; }
+[data-theme="morrowind"] .nav-ribbons .nav-item:hover { color: #fff1cf; }
+[data-theme="morrowind"] .nav-ribbons .nav-item.on {
+  color: #2c1f12;
+  background:
+    linear-gradient(90deg, rgba(120, 78, 28, 0.25), transparent 40%),
+    #e8dab5;
+  margin-right: -1px;
+  border-radius: 3px 0 0 3px;
+  box-shadow: -3px 2px 6px rgba(0, 0, 0, 0.35);
+  z-index: 3;
+}
+[data-theme="morrowind"][data-variant="lamplight"] .nav-ribbons .nav-item.on { background: linear-gradient(90deg, rgba(0, 0, 0, 0.3), transparent 50%), #2a2017; color: #efdcb4; }
+[data-theme="morrowind"] .nav-ribbons .nav-item.on::before { left: 0.55em; width: 7px; top: -4px; bottom: -4px; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 88%, 0 100%); }
+[data-theme="morrowind"] .nav-ribbons .icon { --icon-fill: 0.32; }
+
+/* --- notes & diary look like journal pages --- */
+[data-theme="morrowind"] .note-card { background: rgba(250, 242, 220, 0.55); }
+[data-theme="morrowind"][data-variant="lamplight"] .note-card { background: rgba(58, 44, 29, 0.66); }
+[data-theme="morrowind"] .diary-card,
+[data-theme="morrowind"] .diary-composer {
+  background:
+    repeating-linear-gradient(180deg, transparent 0, transparent 1.62em, rgba(60, 90, 140, 0.13) 1.62em, rgba(60, 90, 140, 0.13) calc(1.62em + 1px)),
+    rgba(250, 243, 222, 0.7);
+  border-left: 3px double rgba(124, 45, 24, 0.45);
+}
+[data-theme="morrowind"][data-variant="lamplight"] .diary-card,
+[data-theme="morrowind"][data-variant="lamplight"] .diary-composer {
+  background: repeating-linear-gradient(180deg, transparent 0, transparent 1.62em, rgba(185, 205, 240, 0.08) 1.62em, rgba(185, 205, 240, 0.08) calc(1.62em + 1px)), rgba(58, 44, 29, 0.7);
+}
+[data-theme="morrowind"] .next-time { background: rgba(124, 45, 24, 0.06); border-left-color: #7c2d18; }
+[data-theme="morrowind"] .marker-pin { border-radius: 50% 50% 50% 0; border-color: rgba(40, 24, 10, 0.75); }
+[data-theme="morrowind"] .place-label { font-family: "IM Fell English", serif; font-style: italic; stroke: rgba(232, 218, 181, 0.85); }
+[data-theme="morrowind"] .place-label.big { font-family: "IM Fell English SC", serif; font-style: normal; }
+[data-theme="morrowind"][data-variant="lamplight"] .place-label { stroke: rgba(30, 22, 14, 0.85); }
+[data-theme="morrowind"] .map-stage { border: 6px solid transparent; border-image: linear-gradient(135deg, #8a6a33, #5a3e1c 40%, #9a7a3c 60%, #5a3e1c) 6; }
+[data-theme="morrowind"] .welcome-card { box-shadow: inset 0 0 60px rgba(120, 78, 28, 0.35), 0 20px 60px rgba(0, 0, 0, 0.55); }
+[data-theme="morrowind"] .status { color: #ead6aa; }

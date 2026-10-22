@@ -1,0 +1,105 @@
+/* ==================================================================
+   KOTOR — a dark science-fiction datapad.
+   Deep navy, cyan and silver, corner-cut panels, faint grid,
+   angular side buttons, wide technical capitals.
+   ================================================================== */
+[data-theme="kotor"] {
+  --holo: #7fd4ff;
+  --holo-rgb: 127, 212, 255;
+  --font-head: "Orbitron", "Exo 2", sans-serif;
+  --font-body: "Exo 2", system-ui, sans-serif;
+  --font-ui: "Exo 2", system-ui, sans-serif;
+  --fs: calc(14.5px * var(--font-scale));
+  --title-size: 1.75em;
+  --head-transform: uppercase;
+  --head-spacing: 0.1em;
+  --head-weight: 600;
+  --radius: 0;
+  --radius-sm: 0;
+  --icon-stroke: 1.5;
+  --cut: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+
+  --bg: #040a14;
+  --bg-img:
+    linear-gradient(rgba(var(--holo-rgb), 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--holo-rgb), 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 60% 20%, rgba(var(--holo-rgb), 0.1), transparent 55%),
+    linear-gradient(180deg, #071226, #03070f);
+  --surface: transparent;
+  --panel: rgba(10, 26, 48, 0.72);
+  --panel-border: rgba(var(--holo-rgb), 0.38);
+  --panel-shadow: 0 0 18px rgba(var(--holo-rgb), 0.06) inset;
+  --ink: #d6ecf9;
+  --ink-2: #a9cfe6;
+  --ink-3: #6f93ad;
+  --accent: var(--holo);
+  --accent-2: rgba(var(--holo-rgb), 0.55);
+  --accent-ink: #03101e;
+  --line: rgba(var(--holo-rgb), 0.15);
+  --line-2: rgba(var(--holo-rgb), 0.32);
+  --hand-ink: #bfe8ff;
+  --live: #7fffc4;
+  --game: #c3b4ff;
+  --nav-bg: rgba(4, 12, 24, 0.75);
+  --nav-ink: #8db6d1;
+  --nav-on-ink: #ffffff;
+  --nav-w: 214px;
+  --top-bg: rgba(3, 9, 18, 0.85);
+  --top-ink: #d6ecf9;
+  --field-bg: rgba(0, 10, 25, 0.55);
+  --field-border: rgba(var(--holo-rgb), 0.35);
+  --btn-border: rgba(var(--holo-rgb), 0.45);
+  --btn-hover: rgba(var(--holo-rgb), 0.12);
+  --btn-primary-bg: var(--holo);
+  --btn-primary-ink: #03101e;
+  --glow: 0 0 8px rgba(var(--holo-rgb), 0.45);
+  color-scheme: dark;
+}
+[data-theme="kotor"] { background-size: 28px 28px, 28px 28px, auto, auto; }
+[data-theme="kotor"] .app { background-size: 28px 28px, 28px 28px, auto, auto; }
+[data-theme="kotor"][data-variant="crimson"] {
+  --holo: #ff8a7f;
+  --holo-rgb: 255, 138, 127;
+  --bg-img:
+    linear-gradient(rgba(var(--holo-rgb), 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--holo-rgb), 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 60% 20%, rgba(var(--holo-rgb), 0.1), transparent 55%),
+    linear-gradient(180deg, #1e0709, #0a0304);
+  --panel: rgba(42, 12, 14, 0.72);
+  --ink: #f7dcd8;
+  --ink-2: #e2b2ab;
+  --ink-3: #a8746d;
+  --accent-ink: #1e0607;
+  --hand-ink: #ffd5cf;
+  --nav-bg: rgba(20, 5, 6, 0.75);
+  --nav-ink: #d19a92;
+  --top-bg: rgba(15, 4, 5, 0.85);
+  --top-ink: #f7dcd8;
+  --field-bg: rgba(25, 3, 4, 0.55);
+  --btn-primary-ink: #1e0607;
+}
+[data-theme="kotor"] .panel { clip-path: var(--cut); border-left: 2px solid var(--accent); }
+[data-theme="kotor"] .panel-title { font-family: "Orbitron", sans-serif; font-size: 0.88em; letter-spacing: 0.14em; text-transform: uppercase; }
+[data-theme="kotor"] .page-title { color: var(--accent); }
+[data-theme="kotor"] .brand-word { font-family: "Orbitron", sans-serif; font-weight: 700; letter-spacing: 0.3em; font-size: 1.05em; }
+[data-theme="kotor"] .btn { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8em; clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px)); }
+/* datapad side buttons */
+[data-theme="kotor"] .nav-datapad { padding: 1em 0.7em; gap: 0.35em; border-right: 1px solid var(--line-2); }
+[data-theme="kotor"] .nav-datapad .nav-item {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.74em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--line-2);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  padding: 0.85em 0.8em;
+  background: linear-gradient(90deg, rgba(var(--holo-rgb), 0.07), transparent);
+}
+[data-theme="kotor"] .nav-datapad .nav-item.on { background: linear-gradient(90deg, rgba(var(--holo-rgb), 0.35), rgba(var(--holo-rgb), 0.06)); border-color: var(--accent); text-shadow: var(--glow); }
+[data-theme="kotor"] .nav-datapad .icon { color: var(--accent); }
+[data-theme="kotor"] .tab { font-family: "Orbitron", sans-serif; font-size: 0.8em; letter-spacing: 0.12em; }
+[data-theme="kotor"] .divider .o-line { stroke: var(--accent); }
+[data-theme="kotor"] .divider .o-fill { fill: var(--accent); }
+[data-theme="kotor"] .map-stage { border: 1px solid var(--accent); clip-path: var(--cut); }
+[data-theme="kotor"] .marker-pin { border-radius: 2px; transform: rotate(45deg); }
+[data-theme="kotor"] .place-label { font-family: "Orbitron", sans-serif; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; stroke: rgba(0, 0, 0, 0.75); }

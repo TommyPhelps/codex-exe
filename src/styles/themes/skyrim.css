@@ -1,0 +1,103 @@
+/* ==================================================================
+   SKYRIM — charcoal, dark iron and frost.
+   Minimal dramatic typography, engraved spaced capitals, Nordic
+   diamond rules, a centred tab bar with no icons.
+   ================================================================== */
+[data-theme="skyrim"] {
+  --font-head: "Marcellus SC", "Cinzel", serif;
+  --font-body: "Josefin Sans", system-ui, sans-serif;
+  --font-ui: "Josefin Sans", system-ui, sans-serif;
+  --fs: calc(15.5px * var(--font-scale));
+  --title-size: 2.1em;
+  --head-transform: uppercase;
+  --head-spacing: 0.16em;
+  --radius: 0;
+  --radius-sm: 0;
+  --icon-stroke: 1.3;
+  --fog: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.85  0 0 0 0 0.88  0 0 0 0 0.92  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+
+  --bg: #0b0d0f;
+  --bg-img: var(--fog), radial-gradient(ellipse at 50% 0%, #1d2226, #0b0d0f 70%);
+  --surface: transparent;
+  --surface-img: none;
+  --panel: rgba(22, 25, 29, 0.72);
+  --panel-border: rgba(220, 226, 232, 0.16);
+  --panel-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  --ink: #e9ecef;
+  --ink-2: #c3c9cf;
+  --ink-3: #8a9299;
+  --accent: #e9ecef;
+  --accent-2: #8d949b;
+  --accent-ink: #0b0d0f;
+  --line: rgba(220, 226, 232, 0.12);
+  --line-2: rgba(220, 226, 232, 0.25);
+  --hand-ink: #c7d8f0;
+  --live: #9fd6a8;
+  --game: #9cbbe0;
+  --nav-bg: transparent;
+  --nav-ink: #8a9299;
+  --nav-on-ink: #ffffff;
+  --top-bg: rgba(0, 0, 0, 0.35);
+  --top-ink: #e9ecef;
+  --field-bg: rgba(0, 0, 0, 0.35);
+  --field-border: rgba(220, 226, 232, 0.22);
+  --btn-border: rgba(220, 226, 232, 0.3);
+  --btn-hover: rgba(255, 255, 255, 0.07);
+  --btn-primary-bg: #e9ecef;
+  --btn-primary-ink: #0b0d0f;
+  color-scheme: dark;
+}
+[data-theme="skyrim"][data-variant="frost"] {
+  --bg: #dfe3e6;
+  --bg-img: var(--fog), radial-gradient(ellipse at 50% 0%, #f3f5f6, #cdd3d7 75%);
+  --panel: rgba(255, 255, 255, 0.6);
+  --panel-border: rgba(30, 36, 41, 0.18);
+  --panel-shadow: 0 1px 3px rgba(20, 30, 40, 0.1);
+  --ink: #1d2327;
+  --ink-2: #3a434a;
+  --ink-3: #69737b;
+  --accent: #1d2327;
+  --accent-2: #69737b;
+  --accent-ink: #f3f5f6;
+  --line: rgba(30, 36, 41, 0.12);
+  --line-2: rgba(30, 36, 41, 0.26);
+  --hand-ink: #2b3f6b;
+  --nav-ink: #69737b;
+  --nav-on-ink: #000;
+  --top-bg: rgba(255, 255, 255, 0.4);
+  --top-ink: #1d2327;
+  --field-bg: rgba(255, 255, 255, 0.55);
+  --field-border: rgba(30, 36, 41, 0.22);
+  --btn-border: rgba(30, 36, 41, 0.3);
+  --btn-hover: rgba(0, 0, 0, 0.05);
+  --btn-primary-bg: #1d2327;
+  --btn-primary-ink: #f3f5f6;
+  --live: #2f7a45;
+  --game: #2f5d8f;
+  color-scheme: light;
+}
+[data-theme="skyrim"] .topbar { border-bottom: 1px solid var(--line); }
+[data-theme="skyrim"] .brand { gap: 0.8em; }
+[data-theme="skyrim"] .char-switch { font-family: "Marcellus SC", serif; letter-spacing: 0.12em; text-transform: uppercase; }
+[data-theme="skyrim"] .page { max-width: 1320px; }
+[data-theme="skyrim"] .page-head { justify-content: center; text-align: center; }
+[data-theme="skyrim"] .page-title-block { width: 100%; }
+[data-theme="skyrim"] .page-sub { justify-content: center; letter-spacing: 0.08em; }
+[data-theme="skyrim"] .page-actions { margin: 0 auto; }
+[data-theme="skyrim"] .panel-title { font-family: "Marcellus SC", serif; text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.98em; color: var(--ink); }
+[data-theme="skyrim"] .panel { backdrop-filter: blur(2px); border-left: 0; border-right: 0; }
+/* Nordic tab bar */
+[data-theme="skyrim"] .nav-nordic { padding: 0.55em 1em 0.35em; gap: 0; border-bottom: 1px solid var(--line); }
+[data-theme="skyrim"] .nav-nordic .nav-item { font-family: "Marcellus SC", serif; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.86em; padding: 0.45em 0.75em; }
+[data-theme="skyrim"] .nav-nordic .nav-item.on { background: transparent; }
+[data-theme="skyrim"] .nav-nordic .nav-item.on .nav-label { border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+[data-theme="skyrim"] .nav-nordic .nav-item.on::before,
+[data-theme="skyrim"] .nav-nordic .nav-item.on::after { content: "\25C6"; font-size: 0.55em; opacity: 0.7; }
+[data-theme="skyrim"] .nav-sep { color: var(--ink-3); font-size: 0.5em; margin-left: 0.9em; opacity: 0.6; }
+[data-theme="skyrim"] .tab { text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.9em; }
+[data-theme="skyrim"] .btn { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8em; }
+[data-theme="skyrim"] .divider .o-line { stroke: var(--ink-3); }
+[data-theme="skyrim"] .divider .o-fill { fill: var(--ink); }
+[data-theme="skyrim"] .map-stage { border: 1px solid var(--line-2); }
+[data-theme="skyrim"] .place-label { font-family: "Marcellus SC", serif; text-transform: uppercase; letter-spacing: 0.14em; stroke: rgba(0, 0, 0, 0.6); }
+[data-theme="skyrim"][data-variant="frost"] .place-label { stroke: rgba(255, 255, 255, 0.75); }

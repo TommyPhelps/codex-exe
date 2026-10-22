@@ -1,0 +1,109 @@
+/* ------------------------------------------------------------------ map */
+.map-page { height: 100%; display: flex; flex-direction: column; max-width: none; padding-bottom: 0.8em; }
+.map-page .page-body { flex: 1 1 auto; min-height: 420px; display: flex; flex-direction: column; }
+.map-actions { display: flex; gap: 0.35em; align-items: center; flex-wrap: wrap; }
+.map-actions .map-name { width: 12em; }
+.map-layout { flex: 1 1 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.7em; min-height: 420px; }
+.map-layout.with-list { grid-template-columns: minmax(0, 1fr) 270px; }
+.map-stage { position: relative; min-height: 420px; border: 1px solid var(--panel-border); border-radius: var(--radius); overflow: hidden; display: flex; }
+.map-stage > .empty { margin: auto; }
+.map-canvas { position: relative; flex: 1; overflow: hidden; cursor: grab; touch-action: none; user-select: none; min-height: 420px; }
+.map-canvas:active { cursor: grabbing; }
+.map-canvas.picking, .map-canvas.moving, .map-canvas.tool-pen, .map-canvas.tool-rect, .map-canvas.tool-line, .map-canvas.tool-text { cursor: crosshair; }
+.map-canvas.tool-erase { cursor: not-allowed; }
+.map-world { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+.map-base-host, .map-fog-host { position: absolute; inset: 0; }
+.map-base, .map-fog { position: absolute; left: 0; top: 0; image-rendering: auto; pointer-events: none; }
+.map-fog { mix-blend-mode: normal; }
+.map-vector { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.map-vector .trail { fill: none; stroke-width: 2.4; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 5; opacity: 0.9; }
+.map-vector .trail.replay { stroke-dasharray: 6 4; opacity: 0.75; }
+.map-vector .travel-line { stroke: var(--game); stroke-width: 1.4; stroke-dasharray: 5 5; vector-effect: non-scaling-stroke; opacity: 0.8; pointer-events: stroke; }
+.map-vector .sketch { pointer-events: auto; }
+.map-vector .sk { fill: none; stroke: var(--ink); stroke-width: 2.2; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.map-vector rect.sk { fill: color-mix(in srgb, var(--accent) 8%, transparent); }
+.map-vector .sk-text { fill: var(--ink); stroke: none; font-family: var(--font-hand); font-size: 28px; }
+.map-vector .erasable { pointer-events: visiblePainted; cursor: pointer; }
+.map-vector .erasable:hover { stroke: var(--bad); fill: color-mix(in srgb, var(--bad) 15%, transparent); }
+.map-overlay { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+.place-label { font-family: var(--font-head); font-size: 12px; text-anchor: middle; paint-order: stroke; stroke: color-mix(in srgb, var(--surface) 70%, transparent); stroke-width: 3px; stroke-linejoin: round; letter-spacing: 0.04em; }
+.place-label.big { font-size: 15px; letter-spacing: 0.08em; }
+.map-point circle { fill: none; stroke: var(--game); stroke-width: 2; }
+.map-point.point-exit circle { stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 3 2; r: 9; }
+.map-point.point-divine circle { stroke: #d9c067; }
+.map-point.point-almsivi circle { stroke: #c9734a; }
+.calib-point path, .calib-point circle { stroke: var(--bad); stroke-width: 2; fill: none; }
+.calib-point text { fill: var(--bad); font-size: 12px; font-weight: 700; }
+.player .player-halo { fill: color-mix(in srgb, var(--surface) 35%, transparent); stroke-width: 2; }
+.player path { stroke: var(--surface); stroke-width: 1.2; }
+
+.marker { position: absolute; transform: translate(-50%, -100%); border: 0; background: none; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; z-index: 2; }
+.marker-pin {
+  width: 26px;
+  height: 26px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--mk);
+  border: 2px solid color-mix(in srgb, var(--mk) 55%, #000);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.marker-pin .icon { transform: rotate(45deg); stroke-width: 2.2; }
+.marker.on .marker-pin { outline: 3px solid var(--accent); outline-offset: 2px; }
+.marker.done .marker-pin { opacity: 0.55; filter: grayscale(0.6); }
+.marker-label { position: absolute; top: 100%; margin-top: 2px; white-space: nowrap; font-size: 11.5px; font-family: var(--font-ui); background: color-mix(in srgb, var(--surface) 85%, transparent); color: var(--ink); padding: 0 0.35em; border-radius: 3px; pointer-events: none; }
+
+.map-ui { position: absolute; z-index: 5; }
+.map-zoom { right: 10px; top: 10px; display: flex; flex-direction: column; border: 1px solid var(--panel-border); border-radius: var(--radius-sm); overflow: hidden; background: var(--panel); }
+.map-zoom button { width: 30px; height: 30px; border: 0; background: transparent; cursor: pointer; font-size: 18px; color: var(--ink); display: grid; place-items: center; }
+.map-zoom button + button { border-top: 1px solid var(--line); }
+.map-zoom button:hover { background: var(--btn-hover); }
+.map-compass { left: 10px; bottom: 10px; pointer-events: none; opacity: 0.9; }
+.compass .c-line { fill: none; stroke: var(--accent); stroke-width: 1.6; }
+.compass .c-thin { stroke-width: 0.8; }
+.compass .c-dash { stroke-dasharray: 3 3; }
+.compass .c-fill { fill: var(--accent); }
+.compass .c-text { fill: var(--accent); font-family: var(--font-head); font-size: 12px; }
+.follow-toggle { left: 50%; transform: translateX(-50%); bottom: 12px; display: flex; gap: 0.4em; }
+.follow-toggle .btn { background: var(--panel); }
+.interior-note { left: 50%; transform: translateX(-50%); top: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius); padding: 0.45em 0.8em; display: flex; align-items: center; gap: 0.5em; max-width: 80%; flex-wrap: wrap; font-size: 0.92em; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3); }
+.moving-note { left: 50%; transform: translateX(-50%); top: 12px; background: var(--panel); border: 1px solid var(--accent); border-radius: var(--radius); padding: 0.4em 0.8em; }
+.add-marker { display: flex; gap: 0.35em; align-items: center; padding: 0.45em; transform: translate(-50%, 12px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); flex-wrap: wrap; max-width: 520px; }
+.add-marker .field { width: 15em; }
+.marker-editor { right: 50px; top: 10px; width: 320px; max-height: calc(100% - 20px); overflow: auto; display: flex; flex-direction: column; gap: 0.45em; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+.me-head { display: flex; align-items: center; gap: 0.4em; }
+.me-title { flex: 1; font-family: var(--font-head); font-size: 1.1em; }
+.swatches { display: flex; gap: 0.25em; }
+.swatch { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; }
+.swatch.on { border-color: var(--ink); }
+.calibrator { left: 10px; top: 10px; width: 360px; max-height: calc(100% - 20px); overflow: auto; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+.calibrator h3 { color: var(--accent); margin-bottom: 0.3em; }
+.calib-list { padding-left: 0; list-style: none; }
+.sketch-tools { left: 10px; top: 10px; display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--panel-border); border-radius: var(--radius-sm); overflow: hidden; }
+.sketch-tools button { width: 34px; height: 34px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--ink-2); }
+.sketch-tools button.on { background: var(--accent); color: var(--accent-ink); }
+.sketch-tools button:disabled { opacity: 0.35; }
+.map-side { display: flex; flex-direction: column; gap: 0.5em; min-height: 0; overflow: hidden; }
+.map-layout:not(.with-list) .map-side { position: absolute; right: 1.6em; width: 270px; pointer-events: none; }
+.map-layout:not(.with-list) .map-side > * { pointer-events: auto; }
+.map-side-head { display: flex; gap: 0.3em; align-items: center; }
+.map-side-head .field { flex: 1; }
+.marker-list { overflow: auto; flex: 1 1 auto; display: flex; flex-direction: column; gap: 0.1em; }
+.marker-list .list-item { flex-direction: row; align-items: center; gap: 0.5em; flex-wrap: wrap; }
+.marker-list .li-sub { width: 100%; padding-left: 1.7em; }
+.mk-dot { display: inline-flex; }
+.layers { display: flex; flex-direction: column; gap: 0.2em; font-size: 0.92em; }
+.cat-filter { display: flex; flex-wrap: wrap; gap: 0.25em; margin-top: 0.4em; }
+.search-hits { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.search-hits .list-item { flex-direction: row; align-items: center; gap: 0.4em; }
+.trail-tools { display: flex; align-items: center; justify-content: space-between; gap: 0.5em; }
+.replay-flag { margin-top: 0.4em; font-size: 0.9em; display: flex; gap: 0.4em; align-items: center; color: var(--warn); }
+.mode-compact .map-layout.with-list { grid-template-columns: minmax(0, 1fr); }
+.mode-compact .map-side { display: none; }
+@media (max-width: 860px) {
+  .map-layout.with-list { grid-template-columns: minmax(0, 1fr); }
+  .map-side { max-height: 40vh; }
+  .marker-editor { right: 10px; left: 10px; width: auto; }
+}

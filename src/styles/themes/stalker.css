@@ -1,0 +1,104 @@
+/* ==================================================================
+   S.T.A.L.K.E.R. — a battered field PDA.
+   Desaturated olive screen inside a plastic bezel, bottom hardware
+   buttons with an indicator strip, condensed military capitals.
+   ================================================================== */
+[data-theme="stalker"] {
+  --font-head: "Oswald", "Roboto Condensed", sans-serif;
+  --font-body: "Roboto Condensed", system-ui, sans-serif;
+  --font-ui: "Roboto Condensed", system-ui, sans-serif;
+  --font-mono: "Share Tech Mono", monospace;
+  --font-hand: "Share Tech Mono", monospace;
+  --fs: calc(15px * var(--font-scale));
+  --title-size: 1.9em;
+  --head-transform: uppercase;
+  --head-spacing: 0.06em;
+  --head-weight: 500;
+  --radius: 2px;
+  --radius-sm: 2px;
+  --icon-stroke: 1.8;
+  --dirt: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' seed='17' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.11  0 0 0 0 0.08  0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
+
+  --bg: #1b1d18;
+  --bg-img: var(--dirt), linear-gradient(180deg, #262823, #141512);
+  --surface: #474c3e;
+  --surface-img: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 3px), radial-gradient(ellipse at 50% 40%, rgba(220, 230, 180, 0.1), transparent 65%), var(--dirt);
+  --panel: rgba(30, 33, 26, 0.55);
+  --panel-border: rgba(200, 200, 150, 0.22);
+  --panel-shadow: none;
+  --ink: #e6e6cf;
+  --ink-2: #cfcfb3;
+  --ink-3: #a3a487;
+  --accent: #d6cf7c;
+  --accent-2: #9a9562;
+  --accent-ink: #1b1d18;
+  --line: rgba(220, 220, 170, 0.14);
+  --line-2: rgba(220, 220, 170, 0.28);
+  --hand-ink: #f0e7a0;
+  --live: #b8e07a;
+  --game: #a9c6c9;
+  --nav-bg: #22241f;
+  --nav-img: var(--dirt), linear-gradient(180deg, #2c2e28, #1a1b17);
+  --nav-ink: #a3a487;
+  --nav-on-ink: #f2ecb0;
+  --top-bg: #1d1f1a;
+  --top-img: var(--dirt);
+  --top-ink: #d8d8bf;
+  --field-bg: rgba(0, 0, 0, 0.25);
+  --field-border: rgba(220, 220, 170, 0.3);
+  --btn-border: rgba(220, 220, 170, 0.35);
+  --btn-hover: rgba(220, 220, 170, 0.08);
+  --btn-primary-bg: #b9b263;
+  --btn-primary-ink: #1b1d18;
+  color-scheme: dark;
+}
+[data-theme="stalker"][data-variant="night"] {
+  --surface: #172019;
+  --surface-img: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px), radial-gradient(ellipse at 50% 40%, rgba(160, 220, 170, 0.08), transparent 65%), var(--dirt);
+  --panel: rgba(10, 16, 12, 0.6);
+  --ink: #c8e4cc;
+  --ink-2: #a9c9ad;
+  --ink-3: #7d9a82;
+  --accent: #b8e07a;
+  --accent-2: #6f9a5a;
+  --hand-ink: #d6f0a8;
+  --btn-primary-bg: #8fbf5a;
+}
+/* the PDA bezel around the screen */
+[data-theme="stalker"] .main {
+  margin: 10px 14px;
+  border-radius: 14px;
+  border: 10px solid #2c2e29;
+  box-shadow: 0 0 0 1px #0c0d0b, inset 0 0 40px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+[data-theme="stalker"] .page-title { color: var(--accent); }
+[data-theme="stalker"] .panel-title { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: 1em; font-weight: 500; }
+[data-theme="stalker"] .brand-word { font-family: "Oswald", sans-serif; letter-spacing: 0.3em; font-weight: 600; }
+/* hardware buttons along the bottom */
+[data-theme="stalker"] .nav-pda { gap: 6px; padding: 6px 14px 10px; border-top: 1px solid #0c0d0b; }
+[data-theme="stalker"] .nav-pda .nav-item {
+  flex-direction: column;
+  gap: 0.15em;
+  min-width: 82px;
+  justify-content: center;
+  padding: 0.45em 0.6em 0.4em;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78em;
+  background: linear-gradient(180deg, #3a3d36, #262823);
+  border: 1px solid #0c0d0b;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 0 #0c0d0b;
+}
+[data-theme="stalker"] .nav-pda .nav-item::before { content: ""; position: absolute; top: 3px; left: 25%; right: 25%; height: 2px; background: #1a1b17; border-radius: 2px; }
+[data-theme="stalker"] .nav-pda .nav-item.on { transform: translateY(1px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05); color: var(--nav-on-ink); }
+[data-theme="stalker"] .nav-pda .nav-item.on::before { background: var(--live); box-shadow: 0 0 6px var(--live); }
+[data-theme="stalker"] .tab { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: 0.06em; }
+[data-theme="stalker"] .stat-table td.num, [data-theme="stalker"] .tl-time { font-family: "Share Tech Mono", monospace; }
+[data-theme="stalker"] .divider .o-line { stroke: var(--accent-2); }
+[data-theme="stalker"] .map-stage { border: 1px solid var(--line-2); }
+[data-theme="stalker"] .marker-pin { border-radius: 2px; transform: rotate(0); width: 22px; height: 22px; }
+[data-theme="stalker"] .marker-pin .icon { transform: none; }
+[data-theme="stalker"] .place-label { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: 0.1em; stroke: rgba(0, 0, 0, 0.7); }
+[data-theme="stalker"] .mode-compact .nav-pda .nav-item { min-width: 44px; }

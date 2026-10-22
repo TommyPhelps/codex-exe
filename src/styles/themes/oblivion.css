@@ -1,0 +1,114 @@
+/* ==================================================================
+   OBLIVION — a refined Cyrodiilic chronicle.
+   Warm tan parchment throughout, Roman-capital headings, gold
+   filigree, chapter-style navigation. Original ornaments.
+   ================================================================== */
+[data-theme="oblivion"] {
+  --font-head: "Cinzel", "Spectral", serif;
+  --font-body: "Spectral", Georgia, serif;
+  --font-ui: "Spectral", Georgia, serif;
+  --fs: calc(15px * var(--font-scale));
+  --title-size: 2em;
+  --head-spacing: 0.06em;
+  --head-weight: 600;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --icon-stroke: 1.4;
+  --vellum: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.36  0 0 0 0 0.16  0 0 0 0.12 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>");
+
+  --bg: #c9b183;
+  --bg-img: var(--vellum), linear-gradient(180deg, #cfb889, #b89c6c);
+  --surface: #ead9b1;
+  --surface-img: radial-gradient(ellipse at 50% 30%, rgba(255, 248, 225, 0.55), transparent 65%), radial-gradient(ellipse at 50% 50%, transparent 65%, rgba(140, 100, 45, 0.22) 100%), var(--vellum);
+  --panel: rgba(249, 239, 213, 0.6);
+  --panel-border: rgba(167, 123, 44, 0.55);
+  --panel-shadow: 0 2px 8px rgba(110, 80, 30, 0.18);
+  --ink: #33230f;
+  --ink-2: #57401f;
+  --ink-3: #85693f;
+  --accent: #946617;
+  --accent-2: #b58b3a;
+  --accent-ink: #fff6dc;
+  --line: rgba(167, 123, 44, 0.22);
+  --line-2: rgba(167, 123, 44, 0.45);
+  --hand-ink: #3a2f6a;
+  --live: #3f7244;
+  --game: #3b5f86;
+  --nav-bg: #d9c393;
+  --nav-img: var(--vellum), linear-gradient(90deg, #d4bc8b, #e2cea2);
+  --nav-ink: #4d3718;
+  --nav-on-ink: #2a1b08;
+  --nav-w: 236px;
+  --top-bg: #d4bd8e;
+  --top-img: var(--vellum), linear-gradient(180deg, #dcc699, #c9b080);
+  --top-ink: #33230f;
+  --field-bg: rgba(255, 250, 234, 0.6);
+  --field-border: rgba(167, 123, 44, 0.45);
+  --btn-border: rgba(148, 102, 23, 0.55);
+  --btn-hover: rgba(148, 102, 23, 0.1);
+  --btn-primary-bg: linear-gradient(180deg, #b58b3a, #8a5f14);
+  --btn-primary-ink: #fff6dc;
+  color-scheme: light;
+}
+[data-theme="oblivion"][data-variant="night"] {
+  --bg: #17130d;
+  --bg-img: linear-gradient(180deg, #1f1a12, #120f0a);
+  --surface: #211b13;
+  --surface-img: radial-gradient(ellipse at 50% 20%, rgba(214, 173, 91, 0.1), transparent 60%);
+  --panel: rgba(40, 33, 23, 0.85);
+  --panel-border: rgba(214, 173, 91, 0.35);
+  --ink: #ecd9ab;
+  --ink-2: #d2bc8a;
+  --ink-3: #a08a5e;
+  --accent: #d6ad5b;
+  --accent-2: #a9853f;
+  --accent-ink: #1d170f;
+  --line: rgba(214, 173, 91, 0.15);
+  --line-2: rgba(214, 173, 91, 0.32);
+  --hand-ink: #c3c8f0;
+  --nav-bg: #1a150e;
+  --nav-img: linear-gradient(90deg, #1f1912, #15110b);
+  --nav-ink: #cdb57f;
+  --nav-on-ink: #f6e3b3;
+  --top-bg: #15110b;
+  --top-img: linear-gradient(180deg, #1d1810, #120e09);
+  --top-ink: #ecd9ab;
+  --field-bg: rgba(0, 0, 0, 0.25);
+  --field-border: rgba(214, 173, 91, 0.3);
+  --btn-border: rgba(214, 173, 91, 0.4);
+  --btn-hover: rgba(214, 173, 91, 0.1);
+  --live: #86c48f;
+  --game: #8eb2da;
+  color-scheme: dark;
+}
+[data-theme="oblivion"] .btn-primary { background: var(--btn-primary-bg); border-color: #7a5212; }
+[data-theme="oblivion"] .page-title { color: var(--accent); }
+[data-theme="oblivion"] .panel-title { font-family: "Cinzel", serif; font-weight: 600; letter-spacing: 0.06em; color: var(--accent); }
+[data-theme="oblivion"] .brand-word { font-family: "Cinzel", serif; font-weight: 700; letter-spacing: 0.14em; }
+/* chapter list with gold rules */
+[data-theme="oblivion"] .nav-chapters { padding: 1.4em 0.8em; gap: 0.1em; border-right: 1px solid rgba(167, 123, 44, 0.4); }
+[data-theme="oblivion"] .nav-chapters .nav-item {
+  font-family: "Cinzel", serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-size: 0.95em;
+  padding: 0.55em 0.8em;
+  border-radius: 4px;
+  border-bottom: 1px solid transparent;
+  background-image: linear-gradient(90deg, transparent, rgba(167, 123, 44, 0.45), transparent);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+[data-theme="oblivion"] .nav-num { font-family: "Cinzel", serif; font-size: 0.75em; color: var(--accent-2); width: 2.4em; text-align: right; }
+[data-theme="oblivion"] .nav-chapters .nav-item.on {
+  background-color: rgba(255, 248, 225, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(167, 123, 44, 0.55), 0 2px 6px rgba(110, 80, 30, 0.2);
+}
+[data-theme="oblivion"][data-variant="night"] .nav-chapters .nav-item.on { background-color: rgba(214, 173, 91, 0.12); }
+[data-theme="oblivion"] .nav-chapters .icon { color: var(--accent); }
+[data-theme="oblivion"] .tab { font-family: "Cinzel", serif; font-weight: 600; letter-spacing: 0.05em; font-size: 0.95em; }
+[data-theme="oblivion"] .divider .o-line { stroke: #b58b3a; }
+[data-theme="oblivion"] .divider .o-fill { fill: #946617; }
+[data-theme="oblivion"] .map-stage { border: 2px solid rgba(167, 123, 44, 0.65); box-shadow: inset 0 0 0 3px rgba(255, 248, 225, 0.4); }
+[data-theme="oblivion"] .place-label { font-family: "Cinzel", serif; font-weight: 600; }

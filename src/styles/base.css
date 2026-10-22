@@ -1,0 +1,125 @@
+/* ------------------------------------------------------------------
+   Design tokens. Every theme overrides these under [data-theme=...].
+   The structure is shared; the presentation is not.
+   ------------------------------------------------------------------ */
+:root,
+[data-theme] {
+  --font-scale: 1;
+  --fs: calc(15px * var(--font-scale));
+  --bg: #1d1a16;
+  --bg-img: none;
+  --surface: #26221c;
+  --surface-img: none;
+  --panel: #2d2821;
+  --panel-2: #353027;
+  --panel-border: #4a4236;
+  --panel-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  --panel-img: none;
+  --ink: #ece3cf;
+  --ink-2: #c8bda4;
+  --ink-3: #9a8f78;
+  --ink-inv: #1d1a16;
+  --accent: #c9a24a;
+  --accent-2: #8d6e2c;
+  --accent-ink: #1d1a16;
+  --line: rgba(236, 227, 207, 0.14);
+  --line-2: rgba(236, 227, 207, 0.28);
+  --ok: #7fae6b;
+  --warn: #d8a84a;
+  --bad: #d36a54;
+  --live: #6fbf8a;
+  --game: #8fa7c8;
+  --hand-ink: #3d6ea8;
+  --nav-bg: #191612;
+  --nav-img: none;
+  --nav-ink: #c8bda4;
+  --nav-on-bg: #2f2921;
+  --nav-on-ink: #f3e7c9;
+  --nav-w: 210px;
+  --top-bg: #15130f;
+  --top-img: none;
+  --top-ink: #ece3cf;
+  --font-head: Georgia, serif;
+  --font-body: Georgia, serif;
+  --font-ui: system-ui, sans-serif;
+  --font-hand: "Caveat", cursive;
+  --font-mono: "Share Tech Mono", ui-monospace, monospace;
+  --head-transform: none;
+  --head-spacing: 0;
+  --head-weight: 400;
+  --radius: 4px;
+  --radius-sm: 3px;
+  --focus: 0 0 0 2px var(--accent);
+  --field-bg: rgba(0, 0, 0, 0.18);
+  --field-border: var(--line-2);
+  --field-ink: var(--ink);
+  --btn-bg: transparent;
+  --btn-ink: var(--ink);
+  --btn-border: var(--line-2);
+  --btn-hover: rgba(255, 255, 255, 0.06);
+  --btn-primary-bg: var(--accent);
+  --btn-primary-ink: var(--accent-ink);
+  --glow: none;
+  --title-size: 1.9em;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+html { font-size: var(--fs); }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+#root { height: 100%; }
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-head);
+  font-weight: var(--head-weight);
+  text-transform: var(--head-transform);
+  letter-spacing: var(--head-spacing);
+  margin: 0;
+  line-height: 1.2;
+}
+p { margin: 0.35em 0; }
+a { color: var(--accent); }
+code, kbd, pre { font-family: var(--font-mono); font-size: 0.9em; }
+pre { white-space: pre-wrap; background: var(--field-bg); padding: 0.6em 0.8em; border-radius: var(--radius-sm); border: 1px solid var(--line); }
+kbd.kbd { border: 1px solid var(--line-2); border-bottom-width: 2px; padding: 0 0.35em; border-radius: 3px; font-size: 0.82em; }
+hr, .plain-rule { border: 0; border-top: 1px solid var(--line); margin: 0.6em 0; }
+button { font: inherit; color: inherit; }
+input, textarea, select { font: inherit; color: var(--field-ink); }
+::selection { background: color-mix(in srgb, var(--accent) 40%, transparent); }
+:focus-visible { outline: none; box-shadow: var(--focus); }
+
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--ink-3) 45%, transparent); border-radius: 8px; border: 3px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--ink-3) 70%, transparent); }
+
+.muted { color: var(--ink-3); }
+.small { font-size: 0.86em; }
+.grow { flex: 1 1 auto; min-width: 0; }
+.row { display: flex; align-items: center; gap: 0.5em; flex-wrap: wrap; margin: 0.35em 0; }
+.row.wrap { flex-wrap: wrap; }
+.row.center { justify-content: center; }
+.inline-group { display: inline-flex; gap: 0.35em; align-items: center; }
+.warn { color: var(--warn); }
+.ok-line { color: var(--ok); display: inline-flex; align-items: center; gap: 0.3em; }
+.hand { font-family: var(--font-hand); font-size: 1.28em; line-height: 1.25; color: var(--hand-ink); }
+.rot90 { transform: rotate(90deg); }
+.flip { transform: rotate(180deg); }
+.icon { flex: none; stroke-width: var(--icon-stroke, 1.7); }
+.icon .fill { fill: currentColor; fill-opacity: var(--icon-fill, 0.25); }
+
+.boot, .boot-error { display: grid; place-content: center; height: 100%; text-align: center; padding: 2em; gap: 0.5em; font-family: var(--font-head); }
+.boot-error h1 { color: var(--bad); }
+
+[data-deco="off"] .app-material,
+[data-deco="off"] .corner,
+[data-deco="off"] .scanlines { display: none !important; }
