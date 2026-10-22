@@ -1,0 +1,356 @@
+
+> codex-exe@1.0.0 test
+> node --test "tests/*.test.ts"
+
+TAP version 13
+# (node:7504) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: migrations apply once, are idempotent and refuse newer databases
+ok 1 - migrations apply once, are idempotent and refuse newer databases
+  ---
+  duration_ms: 17.7034
+  type: 'test'
+  ...
+# Subtest: a failing migration rolls back completely
+ok 2 - a failing migration rolls back completely
+  ---
+  duration_ms: 3.1953
+  type: 'test'
+  ...
+# Subtest: characters in the same game never share records
+ok 3 - characters in the same game never share records
+  ---
+  duration_ms: 5.7935
+  type: 'test'
+  ...
+# Subtest: notes keep the body exactly as written, tags are cleaned
+ok 4 - notes keep the body exactly as written, tags are cleaned
+  ---
+  duration_ms: 3.194
+  type: 'test'
+  ...
+# Subtest: live-located notes record the source
+ok 5 - live-located notes record the source
+  ---
+  duration_ms: 2.6012
+  type: 'test'
+  ...
+# Subtest: quests: status changes set finish time; deleting removes clues and links
+ok 6 - quests: status changes set finish time; deleting removes clues and links
+  ---
+  duration_ms: 5.5856
+  type: 'test'
+  ...
+# Subtest: synced quests match by game id only and never overwrite edited titles
+ok 7 - synced quests match by game id only and never overwrite edited titles
+  ---
+  duration_ms: 6.0788
+  type: 'test'
+  ...
+# Subtest: NPCs, links in both directions and descriptions
+ok 8 - NPCs, links in both directions and descriptions
+  ---
+  duration_ms: 5.8017
+  type: 'test'
+  ...
+# Subtest: markers: categories, done flag, map scoping and invalid positions
+ok 9 - markers: categories, done flag, map scoping and invalid positions
+  ---
+  duration_ms: 3.7523
+  type: 'test'
+  ...
+# Subtest: sessions: one open session at a time, next-time note and last place
+ok 10 - sessions: one open session at a time, next-time note and last place
+  ---
+  duration_ms: 3.6191
+  type: 'test'
+  ...
+# Subtest: visits count repeat entries and mark the first
+ok 11 - visits count repeat entries and mark the first
+  ---
+  duration_ms: 3.2575
+  type: 'test'
+  ...
+# Subtest: entries keep order per parent; delves cascade their checklist
+ok 12 - entries keep order per parent; delves cascade their checklist
+  ---
+  duration_ms: 4.0638
+  type: 'test'
+  ...
+# Subtest: search finds everything the player recorded, ranked by title match
+ok 13 - search finds everything the player recorded, ranked by title match
+  ---
+  duration_ms: 19.1583
+  type: 'test'
+  ...
+# Subtest: settings round-trip JSON values
+ok 14 - settings round-trip JSON values
+  ---
+  duration_ms: 1.878
+  type: 'test'
+  ...
+# Subtest: archived characters are hidden but kept
+ok 15 - archived characters are hidden but kept
+  ---
+  duration_ms: 2.8862
+  type: 'test'
+  ...
+# Subtest: MWSE bridge: runs, writes only codex_live.json, and passes protocol validation
+ok 16 - MWSE bridge: runs, writes only codex_live.json, and passes protocol validation
+  ---
+  duration_ms: 304.254
+  type: 'test'
+  ...
+# Subtest: MWSE bridge: event ring buffer stays bounded
+ok 17 - MWSE bridge: event ring buffer stays bounded
+  ---
+  duration_ms: 2719.3778
+  type: 'test'
+  ...
+# Subtest: OpenMW bridge: prints valid prefixed lines; no onSave handler touches saves
+ok 18 - OpenMW bridge: prints valid prefixed lines; no onSave handler touches saves
+  ---
+  duration_ms: 88.9995
+  type: 'test'
+  ...
+# Subtest: OpenMW bridge: an older engine without the journal API reports fewer capabilities
+ok 19 - OpenMW bridge: an older engine without the journal API reports fewer capabilities
+  ---
+  duration_ms: 37.2079
+  type: 'test'
+  ...
+# Subtest: atlas: world <-> pixel round trip, north is up, cells line up
+ok 20 - atlas: world <-> pixel round trip, north is up, cells line up
+  ---
+  duration_ms: 1.9045
+  type: 'test'
+  ...
+# Subtest: cells: floor semantics for negative coordinates
+ok 21 - cells: floor semantics for negative coordinates
+  ---
+  duration_ms: 2.251
+  type: 'test'
+  ...
+# Subtest: calibration: two points recover a similarity transform with the y flip
+ok 22 - calibration: two points recover a similarity transform with the y flip
+  ---
+  duration_ms: 0.6866
+  type: 'test'
+  ...
+# Subtest: calibration: two points also handle a rotated scan
+ok 23 - calibration: two points also handle a rotated scan
+  ---
+  duration_ms: 0.3447
+  type: 'test'
+  ...
+# Subtest: calibration: three or more points fit an affine (stretched scan) and report error
+ok 24 - calibration: three or more points fit an affine (stretched scan) and report error
+  ---
+  duration_ms: 0.9114
+  type: 'test'
+  ...
+# Subtest: calibration refuses degenerate input
+ok 25 - calibration refuses degenerate input
+  ---
+  duration_ms: 0.3499
+  type: 'test'
+  ...
+# Subtest: viewport: zoom keeps the point under the cursor fixed
+ok 26 - viewport: zoom keeps the point under the cursor fixed
+  ---
+  duration_ms: 0.4042
+  type: 'test'
+  ...
+# Subtest: atlas index: names, labels, lookups and exits
+ok 27 - atlas index: names, labels, lookups and exits
+  ---
+  duration_ms: 0.6893
+  type: 'test'
+  ...
+# Subtest: travel: game-data edges, class labels and fewest-hop routes over verified links only
+ok 28 - travel: game-data edges, class labels and fewest-hop routes over verified links only
+  ---
+  duration_ms: 2.4005
+  type: 'test'
+  ...
+# Subtest: height file parsing validates the header
+ok 29 - height file parsing validates the header
+  ---
+  duration_ms: 1.3484
+  type: 'test'
+  ...
+# (node:4468) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: markdown: blocks, inline styles, checklists and safe links
+ok 30 - markdown: blocks, inline styles, checklists and safe links
+  ---
+  duration_ms: 3.5633
+  type: 'test'
+  ...
+# Subtest: markdown: toggling checkboxes edits only that line
+ok 31 - markdown: toggling checkboxes edits only that line
+  ---
+  duration_ms: 1.057
+  type: 'test'
+  ...
+# Subtest: quick entry parsing
+ok 32 - quick entry parsing
+  ---
+  duration_ms: 1.8979
+  type: 'test'
+  ...
+# Subtest: hotkeys must include a strong modifier and are normalised
+ok 33 - hotkeys must include a strong modifier and are normalised
+  ---
+  duration_ms: 1.1963
+  type: 'test'
+  ...
+# Subtest: Markdown export contains the player's words verbatim and lists attachments
+ok 34 - Markdown export contains the player's words verbatim and lists attachments
+  ---
+  duration_ms: 710.5394
+  type: 'test'
+  ...
+# Subtest: backup: export -> restore round trip into an empty database
+ok 35 - backup: export -> restore round trip into an empty database
+  ---
+  duration_ms: 7.4856
+  type: 'test'
+  ...
+# Subtest: backup: invalid or newer files are refused and a failed restore changes nothing
+ok 36 - backup: invalid or newer files are refused and a failed restore changes nothing
+  ---
+  duration_ms: 6.612
+  type: 'test'
+  ...
+# Subtest: resume: recap sentences come only from records
+ok 37 - resume: recap sentences come only from records
+  ---
+  duration_ms: 6.2401
+  type: 'test'
+  ...
+# Subtest: resume: an empty character gets a friendly prompt, not invented history
+ok 38 - resume: an empty character gets a friendly prompt, not invented history
+  ---
+  duration_ms: 0.3774
+  type: 'test'
+  ...
+# (node:8604) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: rejects documents that are not bridge documents
+ok 39 - rejects documents that are not bridge documents
+  ---
+  duration_ms: 2.3252
+  type: 'test'
+  ...
+# Subtest: validates and clamps state fields; drops unknown or malformed events
+ok 40 - validates and clamps state fields; drops unknown or malformed events
+  ---
+  duration_ms: 2.9642
+  type: 'test'
+  ...
+# Subtest: an exterior cell without grid coordinates is refused (no false world position)
+ok 41 - an exterior cell without grid coordinates is refused (no false world position)
+  ---
+  duration_ms: 0.2815
+  type: 'test'
+  ...
+# Subtest: non-finite and out-of-range numbers are rejected
+ok 42 - non-finite and out-of-range numbers are rejected
+  ---
+  duration_ms: 0.3155
+  type: 'test'
+  ...
+# Subtest: openmw log lines: only prefixed lines are read
+ok 43 - openmw log lines: only prefixed lines are read
+  ---
+  duration_ms: 3.8645
+  type: 'test'
+  ...
+# Subtest: place keys and labels
+ok 44 - place keys and labels
+  ---
+  duration_ms: 0.2445
+  type: 'test'
+  ...
+# Subtest: fixture replay (mwse): trail segments break on interiors and teleports, not on pauses
+ok 45 - fixture replay (mwse): trail segments break on interiors and teleports, not on pauses
+  ---
+  duration_ms: 1.5599
+  type: 'test'
+  ...
+# Subtest: fixture replay (mwse): journal, quests, visits and timeline actions
+ok 46 - fixture replay (mwse): journal, quests, visits and timeline actions
+  ---
+  duration_ms: 1.1184
+  type: 'test'
+  ...
+# Subtest: fixture replay (openmw): trail segments break on interiors and teleports, not on pauses
+ok 47 - fixture replay (openmw): trail segments break on interiors and teleports, not on pauses
+  ---
+  duration_ms: 1.0475
+  type: 'test'
+  ...
+# Subtest: fixture replay (openmw): journal, quests, visits and timeline actions
+ok 48 - fixture replay (openmw): journal, quests, visits and timeline actions
+  ---
+  duration_ms: 1.1775
+  type: 'test'
+  ...
+# Subtest: re-reading an unchanged MWSE file produces nothing new
+ok 49 - re-reading an unchanged MWSE file produces nothing new
+  ---
+  duration_ms: 0.514
+  type: 'test'
+  ...
+# Subtest: a new bridge session (game restart) resets sequence tracking
+ok 50 - a new bridge session (game restart) resets sequence tracking
+  ---
+  duration_ms: 0.2866
+  type: 'test'
+  ...
+# Subtest: trailStep thresholds
+ok 51 - trailStep thresholds
+  ---
+  duration_ms: 0.4029
+  type: 'test'
+  ...
+# Subtest: connection status covers the four states plus waiting
+ok 52 - connection status covers the four states plus waiting
+  ---
+  duration_ms: 0.2921
+  type: 'test'
+  ...
+# Subtest: sync writes visits, trail, quests, discoveries and timeline for the bound character only
+ok 53 - sync writes visits, trail, quests, discoveries and timeline for the bound character only
+  ---
+  duration_ms: 12.1914
+  type: 'test'
+  ...
+# Subtest: place and level reminders trigger from live data
+ok 54 - place and level reminders trigger from live data
+  ---
+  duration_ms: 8.1992
+  type: 'test'
+  ...
+# Subtest: live data is never merged into a character automatically
+ok 55 - live data is never merged into a character automatically
+  ---
+  duration_ms: 3.1598
+  type: 'test'
+  ...
+# Subtest: game date labels
+ok 56 - game date labels
+  ---
+  duration_ms: 0.1638
+  type: 'test'
+  ...
+1..56
+# tests 56
+# suites 0
+# pass 56
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4008.3725

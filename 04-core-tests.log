@@ -1,0 +1,40 @@
+[1m[92m   Compiling[0m codex_core v1.0.0 (D:\a\codex-exe\codex-exe\src-tauri\core)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 16.01s
+[1m[92m     Running[0m unittests src\lib.rs (src-tauri\core\target\debug\deps\codex_core-1361a90e7566b5e9.exe)
+
+running 26 tests
+test atlas::tests::heights_are_oriented_north_up_and_west_left ... ok
+test atlas::tests::destination_in_an_unnamed_cell_is_labelled_near_its_neighbour ... ok
+test atlas::tests::json_lists_cells_doors_exits_travel_and_markers ... ok
+test atlas::tests::build_from_files_reads_disk_and_reports_missing ... ok
+test bridgefiles::tests::add_and_remove_are_reversible ... ok
+test bridgefiles::tests::handles_files_without_trailing_newline_and_special_chars ... ok
+test json::tests::escapes_and_numbers ... ok
+test loadorder::tests::morrowind_ini_game_files ... ok
+test loadorder::tests::openmw_cfg_merge_and_replace ... ok
+test loadorder::tests::original_engine_order ... ok
+test atlas::tests::non_tes3_and_truncated_files_warn_without_failing ... ok
+test atlas::tests::samples_per_cell_shrink_for_large_worlds ... ok
+test atlas::tests::later_plugins_override_and_delete ... ok
+test logtail::tests::restarts_after_truncation ... ok
+test logtail::tests::returns_only_complete_bridge_lines ... ok
+test paths::tests::safe_join_refuses_escapes ... ok
+test paths::tests::sanitizes ... ok
+test procs::tests::parses_names ... ok
+test steam::tests::reads_library_paths ... ok
+test tes3::tests::iterates_records_and_subrecords ... ok
+test tes3::tests::truncation_is_an_error_not_a_panic ... ok
+test tes3::tests::vhgt_round_trip ... ok
+test text::tests::decodes_cp1252_specials ... ok
+test text::tests::zstrings_stop_at_nul_and_trim ... ok
+test loadorder::tests::tokens_and_locating_files ... ok
+test logtail::tests::oversized_lines_are_dropped ... ok
+
+test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+[1m[92m   Doc-tests[0m codex_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

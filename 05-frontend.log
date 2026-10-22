@@ -1,0 +1,13 @@
+
+> codex-exe@1.0.0 build
+> node tools/build.mjs
+
+
+  dist\main.js                                 479.1kb
+  dist\assets\Alegreya-Italic-VF-ZPKOAF7I.ttf  415.9kb
+  dist\assets\Alegreya-VF-ZKKKUTUK.ttf         415.3kb
+  dist\assets\Caveat-VF-HRVI7SYX.ttf           394.2kb
+  dist\assets\RobotoCondensed-VF-3WCID6CH.ttf  362.9kb
+  ...and 20 more output files...
+
+Done in 94ms

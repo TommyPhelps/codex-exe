@@ -1,0 +1,16 @@
+RUNNING after 12s
+D:\a\_temp/smoke:
+total 11012
+drwxr-xr-x 1 runneradmin 197121        0 Oct 22 04:42 .
+drwxr-xr-x 1 runneradmin 197121        0 Oct 22 04:42 ..
+drwxr-xr-x 1 runneradmin 197121        0 Oct 22 04:42 CODEX-data
+-rwxr-xr-x 1 runneradmin 197121 11272192 Oct 22 04:42 CODEX_1.0.0_x64_portable.exe
+
+D:\a\_temp/smoke/CODEX-data:
+total 280
+drwxr-xr-x 1 runneradmin 197121      0 Oct 22 04:42 .
+drwxr-xr-x 1 runneradmin 197121      0 Oct 22 04:42 ..
+drwxr-xr-x 1 runneradmin 197121      0 Oct 22 04:42 backups
+-rw-r--r-- 1 runneradmin 197121   4096 Oct 22 04:42 codex.sqlite3
+-rw-r--r-- 1 runneradmin 197121  32768 Oct 22 04:42 codex.sqlite3-shm
+-rw-r--r-- 1 runneradmin 197121 247232 Oct 22 04:42 codex.sqlite3-wal
